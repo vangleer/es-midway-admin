@@ -21,6 +21,6 @@ export abstract class BaseService<T extends BaseEntity> {
     return this.entity.findAndCount()
   }
   list() {
-    return this.entity.find({})
+    return this.entity.find({ where: { ids: 1 } } as any)
   }
 }
