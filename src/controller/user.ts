@@ -1,4 +1,5 @@
 import { Body, Controller, Inject, Post } from '@midwayjs/core';
+import { User } from '../entity/user';
 import { UserService } from '../service/user'
 import { BaseController } from './base';
 
@@ -6,6 +7,7 @@ import { BaseController } from './base';
 export class UserController extends BaseController {
   @Inject()
   service: UserService
+
   @Post('/list')
   async list() {
     const list = await this.service.list()
@@ -26,20 +28,19 @@ export class UserController extends BaseController {
   }
 
   @Post('/add')
-  async add(@Body() data) {
+  async add(@Body() data: User) {
     const res = await this.service.add(data)
-    if (!res) return this.error('用户已存在')
     return this.success(res)
   }
 
   @Post('/update')
-  async update(@Body() data) {
-    const res = await this.service.update(data)
-    return this.success(res)
+  async update(@Body() data: User) {
+    await this.service.update(data)
+    return this.success()
   }
 
   @Post('/login')
-  async login(@Body() data) {
+  async login(@Body() data: User) {
     const res = await this.service.login(data)
     return this.success(res)
   }

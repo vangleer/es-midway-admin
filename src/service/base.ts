@@ -26,7 +26,7 @@ export abstract class BaseService<T extends BaseEntity> {
     })
     return { list, pagination: { total, size, page } }
   }
-  list() {
-    return this.entity.find({ where: { ids: 1 } } as any)
+  list(data?) {
+    return this.entity.find({ where: data } as any)
   }
 }

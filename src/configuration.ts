@@ -4,6 +4,7 @@ import { join } from 'path';
 import * as orm from '@midwayjs/typeorm';
 import * as egg from '@midwayjs/web';
 import { ExceptionFilter } from './filters/exception';
+import { AuthorityMiddleware } from './middleware/authority';
 
 @Configuration({
   imports: [egg, orm],
@@ -15,5 +16,6 @@ export class ContainerLifeCycle implements ILifeCycle {
 
   async onReady() {
     this.app.useFilter(ExceptionFilter)
+    this.app.useMiddleware([AuthorityMiddleware])
   }
 }

@@ -26,9 +26,12 @@ export default (appInfo: MidwayAppInfo) => {
           dateStrings: true
         }
       }
-    }
+    },
     // security: {
     //   csrf: false,
     // },
+    jwt: {
+      secret: 'abc'
+    }
   } as MidwayConfig;
 };
