@@ -1,16 +1,14 @@
-import { Controller, Get, Inject } from '@midwayjs/core';
+import { Controller, Inject, Post } from '@midwayjs/core';
 import { UserService } from '../service/user'
+import { BaseController } from './base';
 
 @Controller('/user')
-export class HomeController {
-
+export class UserController extends BaseController {
   @Inject()
   service: UserService
-
-  @Get('/list')
+  @Post('/list')
   async list() {
-    const res = await this.service.list()
-    console.log(res, 'res')
-    return res;
+    const list = await this.service.list()
+    return this.success(list)
   }
 }
