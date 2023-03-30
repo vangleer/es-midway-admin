@@ -23,6 +23,7 @@ export default (appInfo: MidwayAppInfo) => {
           logging: false,
           // 配置实体模型
           entities: [User, Role, Menu],
+          dateStrings: true
         }
       }
     }
