@@ -2,10 +2,10 @@ import { Catch } from "@midwayjs/core";
 import { Context } from 'egg'
 @Catch()
 export class ExceptionFilter {
-  async catch(err: Error, ctx: Context) {
+  async catch(err, ctx: Context) {
     ctx.logger.error(err)
     return {
-      code: ctx.response.status,
+      code: err.status ?? 500,
       message: err.message
     }
   }

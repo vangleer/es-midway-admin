@@ -2,6 +2,7 @@ import { Middleware, IMiddleware } from '@midwayjs/core';
 import { NextFunction } from '@midwayjs/web';
 import { Context } from 'egg'
 
+// not used
 @Middleware()
 export class ExceptionMiddleware implements IMiddleware<Context, NextFunction> {
   resolve() {
