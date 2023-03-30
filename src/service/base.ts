@@ -14,11 +14,17 @@ export abstract class BaseService<T extends BaseEntity> {
   delete(ids: number | string | string[]) {
     return this.entity.delete(ids)
   }
-  info(id: any) {
-    return this.entity.findOne(id)
+  info(data) {
+    return this.entity.findOne({ where: data })
   }
-  page() {
-    return this.entity.findAndCount()
+  async page(data) {
+    const { page = 1, size = 10 } = data
+    const [list, total] = await this.entity.findAndCount({
+      where: {},
+      take: size,
+      skip: (page - 1) * size
+    })
+    return { list, pagination: { total, size, page } }
   }
   list() {
     return this.entity.find({ where: { ids: 1 } } as any)
