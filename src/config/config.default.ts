@@ -1,7 +1,4 @@
 import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core'
-// import { User } from '../entity/user'
-// import { Role } from '../entity/role'
-// import { Menu } from '../entity/menu'
 
 export default (appInfo: MidwayAppInfo) => {
   return {
