@@ -23,15 +23,15 @@ export default (appInfo: MidwayAppInfo) => {
           logging: false,
           // 配置实体模型
           entities: ['**/entity/*.ts'],
-          dateStrings: true
-        }
-      }
+          dateStrings: true,
+        },
+      },
     },
     // security: {
     //   csrf: false,
     // },
     jwt: {
-      secret: 'abc'
-    }
+      secret: 'abc',
+    },
   } as MidwayConfig;
 };

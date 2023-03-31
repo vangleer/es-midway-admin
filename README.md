@@ -6,7 +6,6 @@
 
 midwayjs + typeorm + redis
 
-
 ## 现有功能
 
 - 登录注册、验证码
@@ -270,4 +269,66 @@ export class UserController extends BaseController {
 
 ```
 
+## 异常处理
 
+在 UserService中使用到了自定义异常，在midwayjs中我们可以轻松实现这一功能
+
+```typescript
+// src/common/CustomHttpError.ts
+import { MidwayHttpError, HttpStatus } from '@midwayjs/core';
+
+export class CustomHttpError extends MidwayHttpError {
+  constructor(message) {
+    super(message || '服务器出错啦！！！', HttpStatus.BAD_REQUEST);
+  }
+}
+
+```
+
+- 这样我们就可以抛出自己定义的异常了，但问题是我想让接口调用者看到错误信息该怎么做呢？这就是我们接下来要讲的异常捕获（midwayjs也提供了非常便捷的方式实现异常捕获，使用装饰器 Catch）
+
+```typescript
+// src/filter/exception.ts
+import { Catch } from '@midwayjs/core';
+import { Context } from 'egg'
+import { Result } from '../utils';
+@Catch()
+export class ExceptionFilter {
+  async catch(err, ctx: Context) {
+    ctx.logger.error(err)
+    return Result.error({
+      code: err.status ?? 500,
+      message: err.message
+    })
+  }
+}
+
+```
+
+上面只是定义了我们要捕获的异常，我们还需要将它应用到我们某个框架的 app 中，比如 http 协议的 app。
+
+我们可以在 src/configuration.ts 中将错误处理过滤器应用上，由于参数可以是数组，我们可以应用多个错误处理器。
+
+```typescript
+import { App, Configuration, ILifeCycle } from '@midwayjs/core';
+import { Application } from 'egg';
+import { join } from 'path';
+import * as orm from '@midwayjs/typeorm';
+import * as egg from '@midwayjs/web';
+import { ExceptionFilter } from './filter/exception';
+@Configuration({
+  imports: [egg, orm],
+  importConfigs: [join(__dirname, './config')],
+})
+export class ContainerLifeCycle implements ILifeCycle {
+  @App()
+  app: Application;
+
+  async onReady() {
+    this.app.useFilter(ExceptionFilter) // +
+  }
+}
+
+```
+
+> 在[midwayjs官网](http://midwayjs.org/)有非常详细异常处理的使用
