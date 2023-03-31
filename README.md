@@ -2,7 +2,7 @@
 
 基于midwayjs搭建的一套基础后台管理系统
 
-[github仓库地址]()
+[github仓库地址](https://github.com/vangleer/es-midway-admin)
 
 ## 使用技术
 
@@ -17,7 +17,7 @@ midwayjs + typeorm + redis
 
 ## 项目搭建
 
-这部分内容参考参考 [midwayjs官网](http://midwayjs.org/) 即可
+这部分内容参考 [midwayjs官网](http://midwayjs.org/) 即可
 
 ## 引入 typeorm
 
