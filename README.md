@@ -2,6 +2,8 @@
 
 基于midwayjs搭建的一套基础后台管理系统
 
+[github仓库地址]()
+
 ## 使用技术
 
 midwayjs + typeorm + redis
@@ -149,13 +151,13 @@ export abstract class BaseService<T extends BaseEntity> {
 
 ```typescript
 // src/service/user.ts
-import { Provide, Inject } from '@midwayjs/core';
+import { Provide, Inject } from '@midwayjs/core'
 import { InjectEntityModel, } from '@midwayjs/typeorm'
 import { Repository } from 'typeorm'
 import { BaseService } from './base'
 import { User } from '../entity/user'
 import * as md5 from 'md5'
-import { CustomHttpError } from '../common/CustomHttpError';
+import { CustomHttpError } from '../common/CustomHttpError'
 
 @Provide()
 export class UserService extends BaseService<User> {
@@ -189,7 +191,7 @@ export class UserService extends BaseService<User> {
 
 ```typescript
 // src/controller/base.ts
-import { Inject } from '@midwayjs/core';
+import { Inject } from '@midwayjs/core'
 import { Context } from '@midwayjs/web'
 import { Result, IResult } from '../utils'
 export abstract class BaseController {
@@ -244,10 +246,10 @@ export const Result = {
 
 ```typescript
 // src/controller/user.ts
-import { Body, Controller, Inject, Post } from '@midwayjs/core';
-import { User } from '../entity/user';
+import { Body, Controller, Inject, Post } from '@midwayjs/core'
+import { User } from '../entity/user'
 import { UserService } from '../service/user'
-import { BaseController } from './base';
+import { BaseController } from './base'
 
 @Controller('/user')
 export class UserController extends BaseController {
@@ -275,11 +277,11 @@ export class UserController extends BaseController {
 
 ```typescript
 // src/common/CustomHttpError.ts
-import { MidwayHttpError, HttpStatus } from '@midwayjs/core';
+import { MidwayHttpError, HttpStatus } from '@midwayjs/core'
 
 export class CustomHttpError extends MidwayHttpError {
   constructor(message) {
-    super(message || '服务器出错啦！！！', HttpStatus.BAD_REQUEST);
+    super(message || '服务器出错啦！！！', HttpStatus.BAD_REQUEST)
   }
 }
 
@@ -289,9 +291,9 @@ export class CustomHttpError extends MidwayHttpError {
 
 ```typescript
 // src/filter/exception.ts
-import { Catch } from '@midwayjs/core';
+import { Catch } from '@midwayjs/core'
 import { Context } from 'egg'
-import { Result } from '../utils';
+import { Result } from '../utils'
 @Catch()
 export class ExceptionFilter {
   async catch(err, ctx: Context) {
@@ -310,19 +312,19 @@ export class ExceptionFilter {
 我们可以在 src/configuration.ts 中将错误处理过滤器应用上，由于参数可以是数组，我们可以应用多个错误处理器。
 
 ```typescript
-import { App, Configuration, ILifeCycle } from '@midwayjs/core';
-import { Application } from 'egg';
-import { join } from 'path';
-import * as orm from '@midwayjs/typeorm';
-import * as egg from '@midwayjs/web';
-import { ExceptionFilter } from './filter/exception';
+import { App, Configuration, ILifeCycle } from '@midwayjs/core'
+import { Application } from 'egg'
+import { join } from 'path'
+import * as orm from '@midwayjs/typeorm'
+import * as egg from '@midwayjs/web'
+import { ExceptionFilter } from './filter/exception'
 @Configuration({
   imports: [egg, orm],
   importConfigs: [join(__dirname, './config')],
 })
 export class ContainerLifeCycle implements ILifeCycle {
   @App()
-  app: Application;
+  app: Application
 
   async onReady() {
     this.app.useFilter(ExceptionFilter) // +
@@ -332,3 +334,12 @@ export class ContainerLifeCycle implements ILifeCycle {
 ```
 
 > 在[midwayjs官网](http://midwayjs.org/)有非常详细异常处理的使用
+
+
+## 最后
+
+由于项目还在开发中，目前就实现了这些功能，后面会不断完善，也会出一些相关文章。
+
+done...
+
+点个赞在走呗！！！(●'◡'●)

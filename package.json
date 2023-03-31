@@ -1,7 +1,12 @@
 {
-  "name": "my-midway-project",
+  "name": "es-midway-admin",
   "version": "1.0.0",
-  "description": "",
+  "description": "基于midwayjs搭建的一套基础后台管理系统",
+  "keywords": [
+    "midwayjs",
+    "typeorm",
+    "admin"
+  ],
   "private": true,
   "dependencies": {
     "@midwayjs/bootstrap": "^3.0.0",
