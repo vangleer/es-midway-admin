@@ -1,4 +1,4 @@
-import { EggPlugin } from 'egg';
+import { EggPlugin } from 'egg'
 export default {
   // static: false,
-} as EggPlugin;
+} as EggPlugin

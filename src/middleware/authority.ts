@@ -1,6 +1,6 @@
-import { Middleware, IMiddleware } from '@midwayjs/core';
-import { NextFunction } from '@midwayjs/web';
-import { Context } from 'egg';
+import { Middleware, IMiddleware } from '@midwayjs/core'
+import { NextFunction } from '@midwayjs/web'
+import { Context } from 'egg'
 // import * as jwt from 'jsonwebtoken';
 @Middleware()
 export class AuthorityMiddleware implements IMiddleware<Context, NextFunction> {
@@ -15,7 +15,7 @@ export class AuthorityMiddleware implements IMiddleware<Context, NextFunction> {
       // console.log(token)
       // const user = await jwt.verify(token, secret)
       // console.log(user)
-      await next();
-    };
+      await next()
+    }
   }
 }

@@ -1,2 +1,2 @@
-const { Bootstrap } = require('@midwayjs/bootstrap');
-Bootstrap.run();
+const { Bootstrap } = require('@midwayjs/bootstrap')
+Bootstrap.run()

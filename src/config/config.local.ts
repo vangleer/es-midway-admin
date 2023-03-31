@@ -1,7 +1,7 @@
-import { EggAppConfig, PowerPartial } from 'egg';
-import { MidwayConfig } from '@midwayjs/core';
+import { EggAppConfig, PowerPartial } from 'egg'
+import { MidwayConfig } from '@midwayjs/core'
 
-export type DefaultConfig = PowerPartial<EggAppConfig>;
+export type DefaultConfig = PowerPartial<EggAppConfig>
 
 /**
  * 这里加入这段是因为 egg 默认的安全策略，在 post 请求的时候如果不传递 token 会返回 403
@@ -11,6 +11,6 @@ export type DefaultConfig = PowerPartial<EggAppConfig>;
  */
 export default {
   security: {
-    csrf: false,
-  },
-} as MidwayConfig & DefaultConfig;
+    csrf: false
+  }
+} as MidwayConfig & DefaultConfig
