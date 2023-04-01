@@ -1,5 +1,5 @@
 import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core'
-
+import * as redisStore from 'cache-manager-ioredis'
 export default (appInfo: MidwayAppInfo) => {
   return {
     // use for cookie sign key, should change to your own and keep security
@@ -29,7 +29,24 @@ export default (appInfo: MidwayAppInfo) => {
     // },
     jwt: {
       secret: 'abc',
-      expiresIn: '30s'
+      expiresIn: '2h'
+    },
+    cache: {
+      // store: 'memory',
+      // options: {
+      //   ttl: null // 过期时间单位毫秒，设置为null视为不过期
+      // }
+
+      // 使用 redis 缓存
+      store: redisStore,
+      options: {
+        host: '192.168.98.241', // default value
+        port: 6379, // default value
+        password: '',
+        db: 0,
+        keyPrefix: 'cache:',
+        ttl: null
+      }
     }
   } as MidwayConfig
 }

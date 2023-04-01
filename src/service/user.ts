@@ -7,6 +7,7 @@ import * as md5 from 'md5'
 import { CustomHttpError } from '../common/CustomHttpError'
 import { Context } from '@midwayjs/web'
 import { JwtService } from '@midwayjs/jwt'
+import { CacheManager } from '@midwayjs/cache'
 
 @Provide()
 export class UserService extends BaseService<User> {
@@ -18,6 +19,9 @@ export class UserService extends BaseService<User> {
 
   @Inject()
   jwt: JwtService
+
+  @Inject()
+  cache: CacheManager
 
   async add(data: User) {
     const user = await this.entity.findOne({
@@ -64,6 +68,7 @@ export class UserService extends BaseService<User> {
       roleId
     }
     const token = await this.jwt.sign(userInfo)
+    await this.cache.set(`es:admin:user:${id}`, userInfo)
     return { token, userInfo }
   }
 
