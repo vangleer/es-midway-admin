@@ -39,9 +39,9 @@ export class UserController extends BaseController {
     return this.success()
   }
 
-  // @Post('/login')
-  // async login(@Body() data: User) {
-  //   const res = await this.service.login(data)
-  //   return this.success(res)
-  // }
+  @Post('/login')
+  async login(@Body() data: User) {
+    const res = await this.service.login(data)
+    return this.success(res)
+  }
 }

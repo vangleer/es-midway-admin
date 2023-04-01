@@ -28,7 +28,8 @@ export default (appInfo: MidwayAppInfo) => {
     //   csrf: false,
     // },
     jwt: {
-      secret: 'abc'
+      secret: 'abc',
+      expiresIn: '30s'
     }
   } as MidwayConfig
 }

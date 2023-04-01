@@ -5,8 +5,8 @@ import { BaseService } from './base'
 import { User } from '../entity/user'
 import * as md5 from 'md5'
 import { CustomHttpError } from '../common/CustomHttpError'
-import * as jwt from 'jsonwebtoken'
 import { Context } from '@midwayjs/web'
+import { JwtService } from '@midwayjs/jwt'
 
 @Provide()
 export class UserService extends BaseService<User> {
@@ -15,6 +15,9 @@ export class UserService extends BaseService<User> {
 
   @Inject()
   ctx: Context
+
+  @Inject()
+  jwt: JwtService
 
   async add(data: User) {
     const user = await this.entity.findOne({
@@ -52,15 +55,15 @@ export class UserService extends BaseService<User> {
       throw new CustomHttpError('用户名或密码有误')
     }
 
-    const { secret } = this.ctx.app.config.jwt
-    const { username, realname, nickname, roleId } = user
+    const { id, username, realname, nickname, roleId } = user
     const userInfo = {
+      id,
       username,
       realname,
       nickname,
       roleId
     }
-    const token = jwt.sign(userInfo, secret)
+    const token = await this.jwt.sign(userInfo)
     return { token, userInfo }
   }
 
