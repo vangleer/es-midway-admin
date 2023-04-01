@@ -18,7 +18,7 @@ export class AuthorityMiddleware implements IMiddleware<Context, NextFunction> {
       const { url } = ctx
 
       // 放行接口
-      if (/.*login.*|.*add.*/.test(url)) {
+      if (/.*login.*|.*add.*|.*getCaptchaImage.*/.test(url)) {
         return await next()
       }
 

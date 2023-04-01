@@ -44,4 +44,10 @@ export class UserController extends BaseController {
     const res = await this.service.login(data)
     return this.success(res)
   }
+
+  @Post('/getCaptchaImage')
+  async getCaptchaImage(@Body() data: User) {
+    const res = await this.service.getImageCaptcha()
+    return this.success(res)
+  }
 }

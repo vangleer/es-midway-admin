@@ -11,9 +11,11 @@
   "dependencies": {
     "@midwayjs/bootstrap": "^3.0.0",
     "@midwayjs/cache": "^3.11.0",
+    "@midwayjs/captcha": "^3.11.0",
     "@midwayjs/core": "^3.0.0",
     "@midwayjs/decorator": "^3.0.0",
     "@midwayjs/jwt": "^3.11.0",
+    "@midwayjs/static-file": "^3.11.0",
     "@midwayjs/typeorm": "^3.11.0",
     "@midwayjs/web": "^3.0.0",
     "cache-manager": "^5.2.0",

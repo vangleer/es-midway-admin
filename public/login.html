@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>登录</h1>
+
+  <form id="form">
+    <div>
+      <input type="text" name="username" placeholder="用户名">
+    </div>
+    <div>
+      <input type="password" name="password" placeholder="密码">
+    </div>
+    <div>
+      <input type="text" name="code" placeholder="验证码">
+      <img class="code">
+    </div>
+    <input type="submit" value="登录">
+  </form>
+
+  <script>
+
+    const formEl = document.querySelector('#form')
+    const codeEl = document.querySelector('.code')
+    let captchaId = ''
+
+    formEl.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const username = document.querySelector('input[name=username]').value
+      const password = document.querySelector('input[name=password]').value
+      const code = document.querySelector('input[name=code]').value
+
+      login({
+        username,
+        password,
+        code,
+        captchaId
+      })
+    })
+
+
+    codeEl.addEventListener('click', () => {
+      getCode()
+    })
+
+    async function getCode() {
+      const res = await axios.post('/user/getCaptchaImage').then(res => res.data)
+      console.log(res)
+      if (res.code === 200) {
+        codeEl.src = res.data.image
+        captchaId = res.data.captchaId
+      }
+    }
+
+    async function login(data) {
+      const res = await axios.post('/user/login', data).then(res => res.data)
+
+      if (res.code === 200) {
+        alert('登录成功')
+      } else {
+        alert(res.message)
+      }
+    }
+
+    getCode()
+  </script>
+</body>
+</html>
