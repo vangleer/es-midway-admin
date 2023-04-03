@@ -1,5 +1,5 @@
 import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core'
-import * as redisStore from 'cache-manager-ioredis'
+// import * as redisStore from 'cache-manager-ioredis'
 export default (appInfo: MidwayAppInfo) => {
   return {
     // use for cookie sign key, should change to your own and keep security
