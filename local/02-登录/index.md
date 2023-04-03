@@ -2,7 +2,9 @@
 
 基于midwayjs搭建的一套基础后台管理系统(二)-登录功能
 
-上期主要介绍了使用midwayjs搭建项目的流程，和抽离公共类。这篇文章主要来实现登录功能，内容包括jwt、缓存、验证码、中间件拦截
+上期主要介绍了使用midwayjs搭建项目的流程，和抽离公共类。
+
+这篇文章主要来实现登录功能，内容包括jwt、缓存、验证码、中间件拦截
 
 [github仓库地址](https://github.com/vangleer/es-midway-admin)
 
@@ -322,6 +324,8 @@ export class OpenController extends BaseController {
 
 ```
 
+上面使用到了midwayjs的参数校验功能，这部分内容比较简单，直接查文档即可 [midwayjs参数校验](http://midwayjs.org/docs/extensions/validate)
+
 ## 中间件拦截未登录用户
 
 前端登录成功后需要把token保存起来，每次发送请求的时候需要带到（Authorization）请求头上，当然你也可以自己决定用什么名称，前后端商量好就行了
@@ -400,3 +404,11 @@ export class ContainerLifeCycle implements ILifeCycle {
 }
 
 ```
+
+## 最后
+
+由于项目还在开发中，目前就实现了这些功能，后面会不断完善，也会出一些相关文章。
+
+done...
+
+点个赞在走呗！！！(●'◡'●)

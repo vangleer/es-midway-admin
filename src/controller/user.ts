@@ -38,16 +38,4 @@ export class UserController extends BaseController {
     await this.service.update(data)
     return this.success()
   }
-
-  @Post('/login')
-  async login(@Body() data: User) {
-    const res = await this.service.login(data)
-    return this.success(res)
-  }
-
-  @Post('/getCaptchaImage')
-  async getCaptchaImage(@Body() data: User) {
-    const res = await this.service.getImageCaptcha()
-    return this.success(res)
-  }
 }
