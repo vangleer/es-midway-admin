@@ -32,24 +32,24 @@ export default (appInfo: MidwayAppInfo) => {
       expiresIn: '2h'
     },
     cache: {
-      // store: 'memory',
-      // options: {
-      //   ttl: null // 过期时间单位毫秒，设置为null视为不过期，默认10000ms
-      // }
+      store: 'memory',
+      options: {
+        ttl: null // 过期时间单位毫秒，设置为null视为不过期，默认10000ms
+      }
 
       // 使用 redis 缓存
-      store: redisStore,
-      options: {
-        host: '192.168.98.241', // default value
-        port: 6379, // default value
-        password: '',
-        db: 0,
-        keyPrefix: 'cache:',
-        ttl: null
-      }
+      // store: redisStore,
+      // options: {
+      //   host: '192.168.98.241', // default value
+      //   port: 6379, // default value
+      //   password: '',
+      //   db: 0,
+      //   keyPrefix: 'cache:',
+      //   ttl: null
+      // }
     },
     captcha: {
-      expirationTime: 10 // 验证码过期时间，单位为秒s，默认一小时 3600
+      expirationTime: 3600 // 验证码过期时间，单位为秒s，默认一小时 3600
     }
   } as MidwayConfig
 }

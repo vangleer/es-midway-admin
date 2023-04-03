@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
   <title>Document</title>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
+
 <body>
   <h1>登录</h1>
 
@@ -50,7 +52,7 @@
     })
 
     async function getCode() {
-      const res = await axios.post('/user/getCaptchaImage').then(res => res.data)
+      const res = await axios.post('/open/captcha').then(res => res.data)
       console.log(res)
       if (res.code === 200) {
         codeEl.src = res.data.image
@@ -59,7 +61,7 @@
     }
 
     async function login(data) {
-      const res = await axios.post('/user/login', data).then(res => res.data)
+      const res = await axios.post('/open/login', data).then(res => res.data)
 
       if (res.code === 200) {
         alert('登录成功')
@@ -71,4 +73,5 @@
     getCode()
   </script>
 </body>
+
 </html>

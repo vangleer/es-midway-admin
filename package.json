@@ -17,6 +17,7 @@
     "@midwayjs/jwt": "^3.11.0",
     "@midwayjs/static-file": "^3.11.0",
     "@midwayjs/typeorm": "^3.11.0",
+    "@midwayjs/validate": "^3.11.1",
     "@midwayjs/web": "^3.0.0",
     "cache-manager": "^5.2.0",
     "cache-manager-ioredis": "^2.1.0",

@@ -7,11 +7,12 @@ import * as jwt from '@midwayjs/jwt'
 import * as cache from '@midwayjs/cache'
 import * as captcha from '@midwayjs/captcha'
 import * as staticFile from '@midwayjs/static-file'
+import * as validate from '@midwayjs/validate'
 import { ExceptionFilter } from './filter/exception'
 import { AuthorityMiddleware } from './middleware/authority'
 
 @Configuration({
-  imports: [egg, orm, jwt, cache, captcha, staticFile],
+  imports: [egg, orm, jwt, cache, captcha, staticFile, validate],
   importConfigs: [join(__dirname, './config')]
 })
 export class ContainerLifeCycle implements ILifeCycle {
