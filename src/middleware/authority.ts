@@ -26,14 +26,10 @@ export class AuthorityMiddleware implements IMiddleware<Context, NextFunction> {
       }
       const { secret } = ctx.app.config.jwt
 
-      try {
-        // 校验token是否合法
-        const user = await this.jwt.verify(token, secret)
-        // const cacheUser = await this.cache.get(`es:admin:user:${user.id}`)
-        await next()
-      } catch (error) {
-        throw new CustomHttpError('token 已过期')
-      }
+      // 校验token是否合法
+      const user = await this.jwt.verify(token, secret)
+      // const cacheUser = await this.cache.get(`es:admin:user:${user.id}`)
+      await next()
     }
   }
 }
