@@ -34,6 +34,6 @@ export class Menu extends BaseEntity {
   @Column({ comment: '路由缓存', default: true })
   keepAlive: boolean
 
-  @Column({ comment: '父菜单名称', default: true })
+  @Column({ comment: '是否显示', default: true })
   isShow: boolean
 }
