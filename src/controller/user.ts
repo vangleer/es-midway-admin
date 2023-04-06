@@ -38,4 +38,10 @@ export class UserController extends BaseController {
     await this.service.update(data)
     return this.success()
   }
+
+  @Post('/delete')
+  async delete(@Body() data) {
+    await this.service.delete(data.ids || [])
+    return this.success()
+  }
 }

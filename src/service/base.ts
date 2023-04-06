@@ -17,10 +17,10 @@ export abstract class BaseService<T extends BaseEntity> {
   info(data) {
     return this.entity.findOne({ where: data })
   }
-  async page(data) {
+  async page(data, where = {}) {
     const { page = 1, size = 10 } = data
     const [list, total] = await this.entity.findAndCount({
-      where: {},
+      where: where,
       take: size,
       skip: (page - 1) * size
     })

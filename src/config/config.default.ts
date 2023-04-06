@@ -50,6 +50,9 @@ export default (appInfo: MidwayAppInfo) => {
     },
     captcha: {
       expirationTime: 3600 // 验证码过期时间，单位为秒s，默认一小时 3600
+    },
+    es: {
+      defaultUserPassword: '123456'
     }
   } as MidwayConfig
 }

@@ -1,12 +1,11 @@
 import { Provide, Inject } from '@midwayjs/core'
 import { InjectEntityModel } from '@midwayjs/typeorm'
-import { Repository } from 'typeorm'
+import { Like, Repository } from 'typeorm'
 import { BaseService } from './base'
 import { User } from '../entity/user'
 import * as md5 from 'md5'
 import { CustomHttpError } from '../common/CustomHttpError'
 import { Context } from '@midwayjs/web'
-
 @Provide()
 export class UserService extends BaseService<User> {
   @InjectEntityModel(User)
@@ -22,8 +21,11 @@ export class UserService extends BaseService<User> {
     if (user) {
       throw new CustomHttpError('用户已存在')
     }
+
     if (data.password) {
       data.password = md5(data.password)
+    } else {
+      data.password = md5(this.ctx.app.config.es.defaultUserPassword || '123456')
     }
     return await super.add(data)
   }
@@ -32,5 +34,10 @@ export class UserService extends BaseService<User> {
       data.password = md5(data.password)
     }
     return await super.update(data)
+  }
+  async page(data) {
+    const { username = '' } = data
+    const where = username ? { username: Like(`%${username}%`) } : {}
+    return super.page(data, where)
   }
 }
