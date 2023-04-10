@@ -1,12 +1,12 @@
 import { Body, Controller, Inject, Post } from '@midwayjs/core'
-import { Menu } from '../entity/menu'
-import { MenuService } from '../service/menu'
+import { Role } from '../entity/role'
+import { RoleService } from '../service/role'
 import { BaseController } from './base'
 
-@Controller('/menu')
+@Controller('/role')
 export class MenuController extends BaseController {
   @Inject()
-  service: MenuService
+  service: RoleService
 
   @Post('/list')
   async list() {
@@ -28,13 +28,13 @@ export class MenuController extends BaseController {
   }
 
   @Post('/add')
-  async add(@Body() data: Menu) {
+  async add(@Body() data: Role) {
     const res = await this.service.add(data)
     return this.success(res)
   }
 
   @Post('/update')
-  async update(@Body() data: Menu) {
+  async update(@Body() data: Role) {
     console.log(data, 'data')
     await this.service.update(data)
     return this.success()
@@ -44,11 +44,5 @@ export class MenuController extends BaseController {
   async delete(@Body() data) {
     await this.service.delete(data.ids || [])
     return this.success()
-  }
-
-  @Post('/list/tree')
-  async treeList() {
-    const list = await this.service.treeList()
-    return this.success(list)
   }
 }

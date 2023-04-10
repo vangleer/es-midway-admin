@@ -5,7 +5,7 @@ import { BaseService } from './base'
 import { Role } from '../entity/role'
 
 @Provide()
-export class UserService extends BaseService<Role> {
+export class RoleService extends BaseService<Role> {
   @InjectEntityModel(Role)
   entity: Repository<Role>
 }

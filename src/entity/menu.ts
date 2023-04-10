@@ -3,7 +3,7 @@ import { BaseEntity } from './base'
 
 @Entity('menu')
 export class Menu extends BaseEntity {
-  @Column({ comment: '父菜单ID', type: 'bigint', nullable: true })
+  @Column({ comment: '父菜单ID', type: 'int', nullable: true })
   parentId: number
 
   @Column({ comment: '菜单名称' })
