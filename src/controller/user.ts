@@ -22,7 +22,6 @@ export class UserController extends BaseController {
 
   @Post('/info')
   async info(@Body() data) {
-    console.log(data, 'data')
     const res = await this.service.info(data)
     return this.success(res)
   }
