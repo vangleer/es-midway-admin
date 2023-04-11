@@ -8,6 +8,7 @@ import { DataSource } from 'typeorm'
 import { ILogger } from '@midwayjs/logger'
 // const defaultApis = ['add', 'delete', 'update', 'info', 'list', 'page']
 const defaultApis = []
+const COMPONENT_KEY = 'es'
 
 @Configuration({
   namespace: 'es'
@@ -29,7 +30,8 @@ class ESConfiguration {
   async onReady(container: IMidwayContainer) {
     this.baseController = await container.getAsync(BaseController)
     await this.crud()
-    this.logger.info("\x1B[36m [es] midwayjs es component ready \x1B[0m");
+    this.logger.info(`\x1B[36m [${COMPONENT_KEY}] midwayjs es component ready \x1B[0m`)
+    console.log(this.app.config.egg)
   }
   async crud() {
     // 可以获取到所有装饰了 @Model() 装饰器的 class
@@ -50,9 +52,10 @@ class ESConfiguration {
 
       if (apis.length && !service && !entity) {
         // service 和 entity都没有提供，提示报错
-        return this.logger.error(`\x1B[36m [es] ${mod.name} ESController decorator need an entity or a service \x1B[0m`)
+        return this.logger.error(`\x1B[36m [${COMPONENT_KEY}] ${mod.name} ESController decorator need an entity or a service \x1B[0m`)
       }
-
+      const globalRouterPrefix = this.app.config?.egg?.globalPrefix || ''
+      this.logger.info(`\x1B[36m [${COMPONENT_KEY}] auto router prefix "${globalRouterPrefix}${options.prefix}"  \x1B[0m`);
       for (const url of apis) {
         this.webRouterService.addRouter(async (ctx) => {
           // 获取 service
@@ -67,8 +70,12 @@ class ESConfiguration {
             baseService.entity = this.defaultDataSource.getRepository(entity)
           }
           const body = ctx.request.body
-          console.log(body, 'body')
-          return this.baseController.success(await baseService[url](body))
+          switch (url) {
+            case 'delete':
+              return this.baseController.success(await baseService[url](body.ids || []))
+            default:
+              return this.baseController.success(await baseService[url](body))
+          }
         }, {
           url: `${options.prefix}/${url}`,
           requestMethod: 'POST'
