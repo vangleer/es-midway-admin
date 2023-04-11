@@ -15,6 +15,7 @@
     "@midwayjs/core": "^3.0.0",
     "@midwayjs/decorator": "^3.0.0",
     "@midwayjs/jwt": "^3.11.0",
+    "@midwayjs/orm": "^3.4.3",
     "@midwayjs/static-file": "^3.11.0",
     "@midwayjs/typeorm": "^3.11.0",
     "@midwayjs/validate": "^3.11.1",

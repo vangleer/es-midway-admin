@@ -1,7 +1,8 @@
-import { Inject } from '@midwayjs/core'
+import { Inject, Provide } from '@midwayjs/core'
 import { Context } from '@midwayjs/web'
 import { Result, IResult } from '../utils'
-export abstract class BaseController {
+@Provide()
+export class BaseController {
   @Inject()
   ctx: Context
 

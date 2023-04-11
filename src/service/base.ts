@@ -3,8 +3,8 @@ import { Repository } from 'typeorm'
 import { BaseEntity } from '../entity/base'
 
 @Provide()
-export abstract class BaseService<T extends BaseEntity> {
-  public abstract entity: Repository<T>
+export class BaseService<T extends BaseEntity> {
+  public entity: Repository<T>
   add(query) {
     return this.entity.save(query)
   }
