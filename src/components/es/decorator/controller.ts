@@ -6,13 +6,37 @@ export declare type ApiTypes = 'add' | 'delete' | 'update' | 'page' | 'info' | '
 export interface CurdOption {
   prefix?: string;
   api: ApiTypes[];
+  pageQueryOp?: QueryOp | Function;
+  listQueryOp?: QueryOp | Function;
   insertParam?: Function;
   before?: Function;
   infoIgnoreProperty?: string[];
   entity?: any; // entity | service二选一
   service?: any; // entity | service二选一
 }
-
+export interface QueryOp {
+  keyWordLikeFields?: string[];
+  where?: Function;
+  select?: string[];
+  addOrderBy?: {};
+  /**
+   * @deprecated 请采用更灵活的 join 配置
+   */
+  leftJoin?: LeftJoinOp[] | JoinOp[];
+  join?: JoinOp[];
+  extend?: Function;
+}
+export interface LeftJoinOp {
+  entity: any;
+  alias: string;
+  condition: string;
+}
+export interface JoinOp {
+  entity: any;
+  alias: string;
+  condition: string;
+  type: 'innerJoin' | 'leftJoin';
+}
 export function ESController(curdOption?: CurdOption | string, routerOptions?: RouterOption): ClassDecorator {
   return (target) => {
     // 将装饰的类，绑定到该装饰器，用于后续能获取到 class

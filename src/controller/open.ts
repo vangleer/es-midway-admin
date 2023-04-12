@@ -2,8 +2,13 @@ import { Body, Controller, Inject, Post } from '@midwayjs/core'
 import { LoginService } from '../service/login'
 import { BaseController } from './base'
 import { LoginDTO } from '../dto/login'
-
-@Controller('/open')
+import { ESController } from '../components/es'
+import { UserService } from '../service/user'
+@ESController({
+  prefix: '/open',
+  api: ['add', 'delete', 'update', 'info', 'list', 'page'],
+  service: UserService
+})
 export class OpenController extends BaseController {
   @Inject()
   service: LoginService

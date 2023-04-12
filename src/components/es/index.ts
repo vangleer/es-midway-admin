@@ -31,7 +31,6 @@ class ESConfiguration {
     this.baseController = await container.getAsync(BaseController)
     await this.crud()
     this.logger.info(`\x1B[36m [${COMPONENT_KEY}] midwayjs es component ready \x1B[0m`)
-    console.log(this.app.config.egg)
   }
   async crud() {
     // 可以获取到所有装饰了 @Model() 装饰器的 class
@@ -69,6 +68,7 @@ class ESConfiguration {
             // 设置service的entity（必须）
             baseService.entity = this.defaultDataSource.getRepository(entity)
           }
+
           const body = ctx.request.body
           switch (url) {
             case 'delete':
