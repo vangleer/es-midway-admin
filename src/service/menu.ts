@@ -12,23 +12,26 @@ export class MenuService extends BaseService<Menu> {
   @Inject()
   ctx: Context
 
-  async treeList() {
-    const list = await this.entity.find()
+  async treeList(where = {}) {
+    const list = await this.entity.find({ order: { parentId: 'ASC' }, where })
     return this.list2tree(list)
   }
-  list2tree(list) {
-    const result: any[] = []
+  list2tree(list, parent = null) {
+    const tree: any = []
+    let temp
     for (let i = 0; i < list.length; i++) {
-      result[i] = list[i]
-      const children = list.filter(item => item.parentId == result[i].id)
-
-      if (children.length) {
-        result[i].children = children
+      if (list[i].parentId === parent) {
+        const obj = list[i]
+        obj.label = list[i].name
+        obj.value = list[i].id
+        const newList = list.filter(item => item.parentId !== parent)
+        temp = this.list2tree(newList, list[i].id)
+        if (temp.length > 0) {
+          obj.children = temp
+        }
+        tree.push(obj)
       }
-
-      result[i].label = result[i].name
-      result[i].value = result[i].id
     }
-    return result.filter((item: any) => item.children && item.parentId === null)
+    return tree
   }
 }
