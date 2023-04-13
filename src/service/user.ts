@@ -42,7 +42,8 @@ export class UserService extends BaseService<User> {
 
     // 页面菜单权限列表
     const menuList = await this.menuService.list({ id: In(menuIds) })
-    const menus = await this.menuService.list2tree(menuList)
+
+    const menus = await this.menuService.list2tree(menuList.filter(item => item.type !== 2))
 
     // 接口权限保存到缓存中
     const perms = menuList.filter(item => item.type === 2).map(item => item.perms)
