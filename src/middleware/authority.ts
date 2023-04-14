@@ -34,7 +34,9 @@ export class AuthorityMiddleware implements IMiddleware<Context, NextFunction> {
           return await next()
         }
 
+        // // 从缓存中获取当前用户接口权限信息
         const perms: string[] = await this.cache.get(`es:admin:perms:${user.id}`)
+        // 判断是否存在当前接口权限
         // if (perms && !perms.includes(url)) {
         //   throw new CustomHttpError('无权限访问~', 1001)
         // }
