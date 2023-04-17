@@ -1,6 +1,6 @@
 # es-midway-admin
 
-基于midwayjs搭建的一套基础后台管理系统(三)-权限管理
+基于midwayjs搭建的一套基础后台管理系统(四)-权限管理
 
 [github仓库地址](https://github.com/vangleer/es-midway-admin)
 
@@ -8,7 +8,7 @@
 
 - 前端/后端权限（菜单&按钮级别）前端使用的是（vue + vue-router + pinia）
 
-- 由于前后端相对独立，只对前端感兴趣的朋友可以只看前端部分
+- 由于前后端相对独立，只对前端感兴趣的朋友可以直接跳转到前端部分
 
 ### 大体流程
 
@@ -622,8 +622,12 @@ app.directive('perm', permission)
 <el-button v-if="hasPermission('/system/user/update')" type="primary">编辑</el-button>
 ```
 
+权限值也可以使用数值(权限点)或其它方式，这里直接使用接口地址主要是便于理解
 
 ## 最后
+
+还有一种方式是返回菜单列表的时候将菜单页面的权限放到里面，每次切换路由得到当前的页面的权限列表，再使用判断即可。
+
 
 由于项目还在开发中，目前就实现了这些功能，后面会不断完善，也会出一些相关文章。
 
