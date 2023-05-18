@@ -6,7 +6,7 @@ export default (appInfo: MidwayAppInfo) => {
     keys: appInfo.name + '_1679997956683_5992',
     egg: {
       port: 7001,
-      globalPrefix: ''
+      globalPrefix: '/v1'
     },
     typeorm: {
       dataSource: {
