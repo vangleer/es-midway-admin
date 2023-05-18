@@ -9,11 +9,18 @@ import * as captcha from '@midwayjs/captcha'
 import * as staticFile from '@midwayjs/static-file'
 import * as validate from '@midwayjs/validate'
 import * as upload from '@midwayjs/upload'
+import * as swagger from '@midwayjs/swagger'
 import * as es from './components/es'
 import { ExceptionFilter } from './filter/exception'
 import { AuthorityMiddleware } from './middleware/authority'
 @Configuration({
-  imports: [egg, orm, jwt, cache, captcha, staticFile, validate, upload, es],
+  imports: [
+    egg, orm, jwt, cache, captcha, staticFile, validate, upload, es,
+    {
+      component: swagger,
+      enabledEnvironment: ['local']
+    }
+  ],
   importConfigs: [join(__dirname, './config')]
 })
 export class ContainerLifeCycle implements ILifeCycle {

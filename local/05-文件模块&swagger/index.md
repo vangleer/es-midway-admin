@@ -214,3 +214,48 @@ const handleChange = (e) => {
 }
 </script>
 ```
+
+## 引入 swagger
+
+### 安装依赖
+
+```sh
+npm install @midwayjs/swagger@3 --save
+npm install swagger-ui-dist --save-dev
+```
+
+如果想要在服务器上输出 Swagger API 页面，则需要将 swagger-ui-dist 安装到依赖中。
+
+```sh
+npm install swagger-ui-dist --save
+```
+
+### 开启组件
+
+```typescript
+import { Configuration } from '@midwayjs/core'
+import * as swagger from '@midwayjs/swagger'
+
+@Configuration({
+  imports: [
+    // ...
+    swagger
+  ]
+})
+export class MainConfiguration {
+
+}
+```
+
+然后启动项目，访问地址：
+
+- UI: http://127.0.0.1:7001/swagger-ui/index.html
+- JSON: http://127.0.0.1:7001/swagger-ui/index.json
+
+路径可以通过 swaggerPath 参数配置。
+
+> 更多使用方式请参考官网 http://midwayjs.org/docs/extensions/swagger
+
+
+使用swagger后不会显示动态生成的增删改查api，目前还没找到好的解决办法，如果有好的方案，欢迎朋友们讨论啊
+
