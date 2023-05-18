@@ -8,11 +8,12 @@ import * as cache from '@midwayjs/cache'
 import * as captcha from '@midwayjs/captcha'
 import * as staticFile from '@midwayjs/static-file'
 import * as validate from '@midwayjs/validate'
+import * as upload from '@midwayjs/upload'
 import * as es from './components/es'
 import { ExceptionFilter } from './filter/exception'
 import { AuthorityMiddleware } from './middleware/authority'
 @Configuration({
-  imports: [egg, orm, jwt, cache, captcha, staticFile, validate, es],
+  imports: [egg, orm, jwt, cache, captcha, staticFile, validate, upload, es],
   importConfigs: [join(__dirname, './config')]
 })
 export class ContainerLifeCycle implements ILifeCycle {
@@ -24,7 +25,7 @@ export class ContainerLifeCycle implements ILifeCycle {
   ctx: Context
 
   async onReady() {
-    this.app.useFilter(ExceptionFilter)
-    this.app.useMiddleware([AuthorityMiddleware])
+    this.app.useFilter(ExceptionFilter as any)
+    this.app.useMiddleware(AuthorityMiddleware as any)
   }
 }

@@ -18,6 +18,7 @@
     "@midwayjs/orm": "^3.4.3",
     "@midwayjs/static-file": "^3.11.0",
     "@midwayjs/typeorm": "^3.11.0",
+    "@midwayjs/upload": "^3.11.6",
     "@midwayjs/validate": "^3.11.1",
     "@midwayjs/web": "^3.0.0",
     "cache-manager": "^5.2.0",
@@ -25,8 +26,10 @@
     "egg": "^2.0.0",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
+    "moment": "^2.29.4",
     "mysql2": "^3.2.0",
-    "typeorm": "^0.3.12"
+    "typeorm": "^0.3.12",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@midwayjs/cli": "^2.0.0",
