@@ -66,20 +66,23 @@ export class FileService {
   // 删除文件
   async removeFile(url) {
     const fileDir = this.getUploadFolder()
-
+    // fileDir包含了uploads，如果url也包含，需要去掉其中一个
     if (url.indexOf(uploadDir) > -1) {
       url = url.replace(uploadDir, '')
     }
     const fileUrl = path.join(fileDir, url)
+    // 如果文件存在删除
     if (fs.existsSync(fileUrl)) {
       fs.unlinkSync(fileUrl)
     }
     return true
   }
+  // 获取上传文件模式 file/stream
   async getMode() {
     return this.ctx.app.config?.upload?.mode || 'file'
   }
 
+  // 获取uploads目录
   getUploadFolder() {
     const baseDir = this.ctx.app.getBaseDir()
     return path.join(baseDir, '..', `public/${uploadDir}`)

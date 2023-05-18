@@ -57,7 +57,7 @@ export default (appInfo: MidwayAppInfo) => {
     },
     upload: {
       // mode: UploadMode, 默认为file，即上传到服务器临时目录，可以配置为 stream
-      mode: 'stream'
+      mode: 'file'
     }
   } as MidwayConfig
 }
