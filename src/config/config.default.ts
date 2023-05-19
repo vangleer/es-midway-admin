@@ -1,4 +1,6 @@
 import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core'
+import { uploadWhiteList } from '@midwayjs/upload'
+console.log(uploadWhiteList)
 // import * as redisStore from 'cache-manager-ioredis'
 export default (appInfo: MidwayAppInfo) => {
   return {
@@ -57,7 +59,8 @@ export default (appInfo: MidwayAppInfo) => {
     },
     upload: {
       // mode: UploadMode, 默认为file，即上传到服务器临时目录，可以配置为 stream
-      mode: 'file'
+      mode: 'file',
+      whitelist: [...uploadWhiteList, '.xlsx', '.xls']
     }
   } as MidwayConfig
 }

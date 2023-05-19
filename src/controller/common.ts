@@ -1,5 +1,4 @@
 import { Body, Inject, Post, Files, Controller } from '@midwayjs/core'
-import { ApiBody, ApiParam, BodyContentType } from '@midwayjs/swagger'
 import { FileService } from '../service/file'
 import { BaseController } from './base'
 

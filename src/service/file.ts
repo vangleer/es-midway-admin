@@ -4,6 +4,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as uuid from 'uuid'
 import * as moment from 'moment'
+import xlsx from 'node-xlsx'
 const uploadDir = 'uploads'
 @Provide()
 export class FileService {
@@ -77,6 +78,30 @@ export class FileService {
     }
     return true
   }
+
+  // 导入excel
+  async importExcel(file) {
+    const [url] = await this.upload([file])
+
+    const filePath = path.join(this.getPublicFolder(), url)
+
+    // 解析表格数据
+    const data = xlsx.parse(filePath)
+    // 删除文件
+    this.removeFile(url)
+    return data
+  }
+
+  // 导入excel
+  async exportExcel(data, fileName?) {
+
+		const buffer = xlsx.build([{ name: 'sheet1', data }] as any)
+		fileName = fileName ? fileName : moment().format('YYYY-MM-DD') + '.xlsx'
+		this.ctx.attachment(fileName)
+		this.ctx.status = 200
+		this.ctx.body = buffer
+  }
+
   // 获取上传文件模式 file/stream
   async getMode() {
     return this.ctx.app.config?.upload?.mode || 'file'
@@ -86,5 +111,11 @@ export class FileService {
   getUploadFolder() {
     const baseDir = this.ctx.app.getBaseDir()
     return path.join(baseDir, '..', `public/${uploadDir}`)
+  }
+
+  // 获取public目录
+  getPublicFolder() {
+    const baseDir = this.ctx.app.getBaseDir()
+    return path.join(baseDir, '..', `public`)
   }
 }
