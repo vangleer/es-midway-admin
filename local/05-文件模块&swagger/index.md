@@ -1,6 +1,6 @@
 # es-midway-admin
 
-基于midwayjs搭建的一套基础后台管理系统(五)-文件模块和swagger接口文档生成
+midwayjs基础后台管理系统(五)-文件模块、excel导入导出、swagger接口文档生成
 
 [github仓库地址](https://github.com/vangleer/es-midway-admin)
 
@@ -14,7 +14,7 @@ midwayjs + typeorm + redis
 - 用户管理
 - 角色管理
 - 权限管理
-- 文件模块
+- 文件模块、excel导入导出
 - swagger
 
 ## 文件模块
