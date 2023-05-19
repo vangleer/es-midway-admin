@@ -215,6 +215,88 @@ const handleChange = (e) => {
 </script>
 ```
 
+## excel导入导出
+
+### 安装 node-xlsx
+
+```
+npm i node-xlsx
+```
+
+### service实现
+
+为了方便我们需要扩展 `service/file.ts` 并添加导入导出相关方法
+
+```typescript
+// service/file.ts
+
+export class FileService {
+  @Inject()
+  ctx: Context
+
+  // 导入excel
+  async importExcel(file, isRemoveFile = true) {
+    // 临时上传
+    const [url] = await this.upload([file])
+
+    const filePath = path.join(this.getPublicFolder(), url)
+
+    // 解析表格数据
+    const data = xlsx.parse(filePath)
+    // 删除文件
+    isRemoveFile && this.removeFile(url)
+    return data
+  }
+
+  // 导入excel
+  async exportExcel(data, fileName?) {
+
+		const buffer = xlsx.build([{ name: 'sheet1', data }] as any)
+    // 导出表格名称
+		fileName = fileName ? fileName : moment().format('YYYY-MM-DD') + '.xlsx'
+		this.ctx.attachment(fileName)
+		this.ctx.status = 200
+		this.ctx.body = buffer
+  }
+  // ...
+}
+
+```
+
+- importExcel 中接收上传的文件和upload一样，不过只接受一个file，使用前面的upload方法将文件保存到服务器，使用node-xlsx解析后删除文件（也可不删除）
+
+- exportExcel 接收数据和导出文件名称（没有自动生成），数据可从数据库获取
+
+因为每个模块的导入导出数据格式不同，这里只是将导出导出封装为公共方法。具体使用需要视情况而定
+
+### controller Demo
+
+```typescript
+// controller/open.ts
+@Controller('/open')
+export class OpenController extends BaseController {
+  @Inject()
+  file: FileService
+
+  @Post('/import')
+  async import(@Files() files) {
+    const file = files[0]
+    const data = await this.file.importExcel(file)
+    // 将数据保存到数据库或者其它地方
+		return this.success(data)
+  }
+
+  @Get('/export')
+  async export() {
+    // 数据可以来自数据库或其它地方
+    const data = [ [ 'id', 'name' ], [ 1, '张三' ], [ 2, '李四' ] ]
+    await this.file.exportExcel(data)
+  }
+}
+```
+- import：将excel解析后将数据可保存到数据库，这里只是简单的返回了
+- export：数据可以来自数据库或其它地方，示例中使用的固定数据
+
 ## 引入 swagger
 
 ### 安装依赖

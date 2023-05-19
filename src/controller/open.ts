@@ -30,9 +30,6 @@ export class OpenController extends BaseController {
     const file = files[0]
     const data = await this.file.importExcel(file)
     // 将数据保存到数据库或者其它地方
-    data.forEach(element => {
-      console.log(element.data)
-    });
 		return this.success(data)
   }
 
