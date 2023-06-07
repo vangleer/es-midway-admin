@@ -7,7 +7,7 @@ import { BaseController } from './base'
 @ESController({
   prefix: '/menu',
   api: ['add', 'delete', 'update', 'info', 'list', 'page'],
-  service: MenuService,
+  service: MenuService
 })
 @Controller('/menu')
 export class MenuController extends BaseController {

@@ -1,5 +1,11 @@
 import { defineStore } from 'pinia'
-import { removeToken, setToken, setStorage, getStorage, removeStorage } from '@/utils'
+import {
+  removeToken,
+  setToken,
+  setStorage,
+  getStorage,
+  removeStorage
+} from '@/utils'
 import router from '@/router'
 type UserState = {
   token: string
@@ -9,7 +15,7 @@ type UserState = {
 }
 
 export const useUserStore = defineStore('user', {
-  state: (): UserState => (getStorage('userinfo') || {}),
+  state: (): UserState => getStorage('userinfo') || {},
   actions: {
     async saveUser({ token, username }: UserState) {
       this.username = username

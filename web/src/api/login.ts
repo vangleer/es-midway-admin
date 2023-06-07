@@ -1,9 +1,9 @@
 import { post } from './request'
 
 export interface ILogin {
-  username: string,
-  password: string,
-  code: string,
+  username: string
+  password: string
+  code: string
   captchaId: string
 }
 

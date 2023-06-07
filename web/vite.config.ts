@@ -32,15 +32,14 @@ export default defineConfig(({ mode }): UserConfig => {
       proxy: {
         '/v1': {
           target: 'http://127.0.0.1:7001',
-          changeOrigin: true,
+          changeOrigin: true
           // rewrite: (path) => path.replace('/v1', '')
         },
         '/uploads': {
           target: 'http://127.0.0.1:7001/public',
           changeOrigin: true
-        },
+        }
       }
-      
     }
   }
 })

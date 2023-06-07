@@ -1,4 +1,13 @@
-import { Configuration, listModule, getClassMetadata, App, Inject, MidwayWebRouterService, Logger, IMidwayContainer } from '@midwayjs/core'
+import {
+  Configuration,
+  listModule,
+  getClassMetadata,
+  App,
+  Inject,
+  MidwayWebRouterService,
+  Logger,
+  IMidwayContainer
+} from '@midwayjs/core'
 import { Application, Context } from 'egg'
 import { MODEL_KEY } from './decorator/controller'
 import { BaseService } from '../../service/base'
@@ -16,7 +25,7 @@ const COMPONENT_KEY = 'es'
 class ESConfiguration {
   // 注入默认数据源
   @InjectDataSource()
-  defaultDataSource: DataSource;
+  defaultDataSource: DataSource
   @Inject()
   webRouterService: MidwayWebRouterService
   @App()
@@ -30,12 +39,14 @@ class ESConfiguration {
   async onReady(container: IMidwayContainer) {
     this.baseController = await container.getAsync(BaseController)
     await this.crud()
-    this.logger.info(`\x1B[36m [${COMPONENT_KEY}] midwayjs es component ready \x1B[0m`)
+    this.logger.info(
+      `\x1B[36m [${COMPONENT_KEY}] midwayjs es component ready \x1B[0m`
+    )
   }
   async crud() {
     // 可以获取到所有装饰了 @Model() 装饰器的 class
-    const modules = listModule(MODEL_KEY);
-    for (let mod of modules) {
+    const modules = listModule(MODEL_KEY)
+    for (const mod of modules) {
       // 实现自定义能力
       // 比如，拿元数据 getClassMetadata(mod)
       // 比如，提前初始化 app.applicationContext.getAsync(mod);
@@ -51,43 +62,50 @@ class ESConfiguration {
 
       if (apis.length && !service && !entity) {
         // service 和 entity都没有提供，提示报错
-        return this.logger.error(`\x1B[36m [${COMPONENT_KEY}] ${mod.name} ESController decorator need an entity or a service \x1B[0m`)
+        return this.logger.error(
+          `\x1B[36m [${COMPONENT_KEY}] ${mod.name} ESController decorator need an entity or a service \x1B[0m`
+        )
       }
       const globalRouterPrefix = this.app.config?.egg?.globalPrefix || ''
       const routePrefix = `${globalRouterPrefix}${options.prefix}`
-      this.logger.info(`\x1B[36m [${COMPONENT_KEY}] auto router prefix "${routePrefix}"  \x1B[0m`);
+      this.logger.info(
+        `\x1B[36m [${COMPONENT_KEY}] auto router prefix "${routePrefix}"  \x1B[0m`
+      )
       for (const url of apis) {
-        this.webRouterService.addRouter(async (ctx) => {
-          // 获取 service
-          let baseService
-          if (service) {
-            // 如果有配置的service就使用配置的
-            baseService = await ctx.requestContext.getAsync(service)
-          } else {
-            // 没有就使用 BaseService, 创建一个
-            baseService = await ctx.requestContext.getAsync(BaseService)
-            // 设置service的entity（必须）
-            baseService.entity = this.defaultDataSource.getRepository(entity)
-          }
+        this.webRouterService.addRouter(
+          async ctx => {
+            // 获取 service
+            let baseService
+            if (service) {
+              // 如果有配置的service就使用配置的
+              baseService = await ctx.requestContext.getAsync(service)
+            } else {
+              // 没有就使用 BaseService, 创建一个
+              baseService = await ctx.requestContext.getAsync(BaseService)
+              // 设置service的entity（必须）
+              baseService.entity = this.defaultDataSource.getRepository(entity)
+            }
 
-          const body = ctx.request.body
-          switch (url) {
-            case 'delete':
-              return this.baseController.success(await baseService[url](body.ids || []))
-            default:
-              return this.baseController.success(await baseService[url](body))
+            const body = ctx.request.body
+            switch (url) {
+              case 'delete':
+                return this.baseController.success(
+                  await baseService[url](body.ids || [])
+                )
+              default:
+                return this.baseController.success(await baseService[url](body))
+            }
+          },
+          {
+            url: `${routePrefix}/${url}`,
+            requestMethod: 'POST'
           }
-        }, {
-          url: `${routePrefix}/${url}`,
-          requestMethod: 'POST'
-        })
+        )
       }
     }
   }
 }
 
-export {
-  ESConfiguration as Configuration
-}
+export { ESConfiguration as Configuration }
 
 export * from './decorator/controller'

@@ -7,5 +7,4 @@ import { BaseController } from './base'
   api: ['add', 'delete', 'update', 'info', 'list', 'page'],
   service: LogService
 })
-export class LogController extends BaseController {
-}
+export class LogController extends BaseController {}

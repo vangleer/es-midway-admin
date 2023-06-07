@@ -93,7 +93,7 @@ function mapRoutes(menus: any[] = []): RouteRecordRaw[] {
     const url = menu.viewPath ? `/src/${menu.viewPath}` : ''
     const path = menu.router ? menu.router : ''
     const component = views[url] ? () => Promise.resolve(views[url]) : null
-    
+
     return {
       // ...menu,
       meta: {

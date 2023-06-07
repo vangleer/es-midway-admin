@@ -18,7 +18,7 @@ use([
   TitleComponent,
   TooltipComponent,
   LegendComponent,
-  GridComponent,
+  GridComponent
 ])
 
 export const setupEcharts = (app: App) => {

@@ -24,7 +24,7 @@ export class LoginService {
   cache: CacheManager
 
   @Inject()
-  captcha: CaptchaService;
+  captcha: CaptchaService
 
   /**
    * 登录
@@ -80,10 +80,13 @@ export class LoginService {
    * 获取验证码
    */
   async getCaptcha() {
-    const { id: captchaId, imageBase64: image } = await this.captcha.image({ width: 120, height: 40 });
+    const { id: captchaId, imageBase64: image } = await this.captcha.image({
+      width: 120,
+      height: 40
+    })
     return {
       captchaId, // 验证码 id
-      image, // 验证码 SVG 图片的 base64 数据，可以直接放入前端的 img 标签内
+      image // 验证码 SVG 图片的 base64 数据，可以直接放入前端的 img 标签内
     }
   }
 }

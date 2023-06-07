@@ -16,7 +16,7 @@ interface AppState {
   browser: any
   tableHeight: number
   mode: LayoutModeType
-  primaryColor: string,
+  primaryColor: string
   tabs: RouteRecordRaw[]
 }
 export const useAppStore = defineStore('app', {
@@ -38,8 +38,8 @@ export const useAppStore = defineStore('app', {
   }),
   actions: {
     setState(payload: any) {
-      Object.keys(payload).forEach((key) => {
-        ; (this as any)[key] = payload[key]
+      Object.keys(payload).forEach(key => {
+        (this as any)[key] = payload[key]
       })
     },
     saveCurrentRoute(to: RouteRecordRaw) {

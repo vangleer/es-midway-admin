@@ -1,4 +1,3 @@
-
 import Layout from '@/layout/index.vue'
 import ErrorPage from '@/views/error-page/ErrorPage.vue'
 export const routes = [
@@ -47,14 +46,14 @@ export const routes = [
         component: () => import('@/views/data/Table.vue'),
         meta: {
           title: '表格'
-        },
+        }
       },
       {
         path: 'form',
         component: () => import('@/views/data/Form.vue'),
         meta: {
           title: '表单'
-        },
+        }
       }
     ]
   },
@@ -108,7 +107,7 @@ export const routes = [
     children: [
       {
         path: '404',
-        component: ErrorPage,
+        component: ErrorPage
       }
     ]
   }

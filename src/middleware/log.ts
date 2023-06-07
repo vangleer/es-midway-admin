@@ -1,4 +1,10 @@
-import { Middleware, IMiddleware, Inject, Scope, ScopeEnum } from '@midwayjs/core'
+import {
+  Middleware,
+  IMiddleware,
+  Inject,
+  Scope,
+  ScopeEnum
+} from '@midwayjs/core'
 import { NextFunction } from '@midwayjs/web'
 import { LogService } from '../service/log'
 import { Context } from 'egg'
@@ -15,8 +21,8 @@ export class LogMiddleware implements IMiddleware<Context, NextFunction> {
         ctx.url.split('?')[0],
         ctx.req.method === 'GET' ? ctx.request.query : ctx.request.body,
         ctx.admin ? ctx.admin.userId : null
-      );
-      await next();
+      )
+      await next()
     }
   }
 }

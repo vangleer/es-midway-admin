@@ -3,5 +3,5 @@ export * from './table'
 export * from './crud'
 export * from './form'
 export default {
-  install(app: App) { }
+  install(app: App) {}
 }

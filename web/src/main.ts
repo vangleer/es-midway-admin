@@ -15,11 +15,7 @@ const app = createApp(App)
 // 注册权限指令
 app.directive('perm', permission)
 
-app.use(router)
-  .use(createPinia())
-  .use(Element)
-  .use(Echarts)
-  .use(esComponent)
+app.use(router).use(createPinia()).use(Element).use(Echarts).use(esComponent)
 app.mount('#app')
 
 console.log(import.meta.env)

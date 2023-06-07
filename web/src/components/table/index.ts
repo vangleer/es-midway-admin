@@ -1,7 +1,7 @@
 import { PropType, ExtractPropTypes } from 'vue'
 import { TableProps as ElTableProps } from 'element-plus'
 type OpButtonType = {
-  label?: string,
+  label?: string
   type?: string
 }
 export type ColumnsProps = {
@@ -15,7 +15,7 @@ export type ColumnsProps = {
 
 export type OperateType = 'add' | 'update' | 'delete' | 'info' | 'check'
 export type OperateItemType = {
-  type: OperateType,
+  type: OperateType
   row?: any
 }
 
@@ -26,7 +26,7 @@ export const TableProps = {
   },
   columns: {
     type: Array as PropType<ColumnsProps[]>,
-    default: () => ([])
+    default: () => []
   }
 }
 

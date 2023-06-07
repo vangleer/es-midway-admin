@@ -43,7 +43,7 @@ export class BaseService<T extends BaseEntity> {
   }
   async nativeQuery(sql, params) {
     if (_.isEmpty(params)) {
-      params = this.sqlParams;
+      params = this.sqlParams
     }
     let newParams = []
     newParams = newParams.concat(params)
@@ -51,14 +51,14 @@ export class BaseService<T extends BaseEntity> {
     return await this.entity.query(sql, newParams || [])
   }
   async getOptionFind(query, option) {
-    let { order = 'createTime', sort = 'desc' } = query
+    const { order = 'createTime', sort = 'desc' } = query
     console.log(query, 'query')
-    let sqlArr = ['SELECT']
-    let selects = ['a.*']
-    let find = this.entity.createQueryBuilder('a')
+    const sqlArr = ['SELECT']
+    const selects = ['a.*']
+    const find = this.entity.createQueryBuilder('a')
 
     if (option) {
-      if (typeof option == 'function') {
+      if (typeof option === 'function') {
         option = await option()
       }
 
@@ -70,14 +70,21 @@ export class BaseService<T extends BaseEntity> {
       }
 
       if (option.where) {
-        const wheres = typeof option.where == 'function' ? await option.where(this.ctx, this.app) : option.where;
+        const wheres =
+          typeof option.where === 'function'
+            ? await option.where(this.ctx, this.app)
+            : option.where
         if (!_.isEmpty(wheres)) {
           for (const item of wheres) {
-            if (item.length == 2 || (item.length == 3 && (item[2] || (item[2] === 0 && item[2] != '')))) {
+            if (
+              item.length == 2 ||
+              (item.length == 3 &&
+                (item[2] || (item[2] === 0 && item[2] != '')))
+            ) {
               for (const key in item[1]) {
-                this.sqlParams.push(item[1][key]);
+                this.sqlParams.push(item[1][key])
               }
-              find.andWhere(item[0], item[1]);
+              find.andWhere(item[0], item[1])
             }
           }
         }
@@ -99,8 +106,7 @@ export class BaseService<T extends BaseEntity> {
       if (!_.isEmpty(option.select)) {
         sqlArr.push(option.select.join(','))
         find.select(option.select)
-      }
-      else {
+      } else {
         sqlArr.push(selects.join(','))
       }
     } else {

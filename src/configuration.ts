@@ -1,4 +1,10 @@
-import { App, Configuration, ILifeCycle, Inject, MidwayWebRouterService } from '@midwayjs/core'
+import {
+  App,
+  Configuration,
+  ILifeCycle,
+  Inject,
+  MidwayWebRouterService
+} from '@midwayjs/core'
 import { Application, Context } from 'egg'
 import { join } from 'path'
 import * as orm from '@midwayjs/typeorm'
@@ -16,7 +22,15 @@ import { AuthorityMiddleware } from './middleware/authority'
 import { LogMiddleware } from './middleware/log'
 @Configuration({
   imports: [
-    egg, orm, jwt, cache, captcha, staticFile, validate, upload, es,
+    egg,
+    orm,
+    jwt,
+    cache,
+    captcha,
+    staticFile,
+    validate,
+    upload,
+    es,
     {
       component: swagger,
       enabledEnvironment: ['local']

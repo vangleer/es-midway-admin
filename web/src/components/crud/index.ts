@@ -13,7 +13,7 @@ export const CrudProps = {
   },
   columns: {
     type: Array as PropType<ColumnsProps[]>,
-    default: () => ([])
+    default: () => []
   },
   search: {
     type: Object as PropType<SearchType>,

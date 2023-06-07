@@ -19,23 +19,23 @@ export class LogService extends BaseService<Log> {
   ctx: Context
   async record(context: Context, url, params, userId) {
     // 获取访问IP地址
-    const ip = await this.utils.getReqIP(context);
+    const ip = await this.utils.getReqIP(context)
     // 创建log实例
-    const log = new Log();
+    const log = new Log()
     // 赋值
-    log.userId = userId;
+    log.userId = userId
 
     // 解析IP地址
-    log.ip = typeof ip === 'string' ? ip : ip.join(',');
-    log.ipAddr = await this.utils.getIpAddr(context, ip);
+    log.ip = typeof ip === 'string' ? ip : ip.join(',')
+    log.ipAddr = await this.utils.getIpAddr(context, ip)
 
     // 保存请求地址
-    log.action = url;
+    log.action = url
     // 请求参数
     if (!_.isEmpty(params)) {
-      log.params = JSON.stringify(params);
+      log.params = JSON.stringify(params)
     }
-    await this.entity.insert(log);
+    await this.entity.insert(log)
   }
 
   /**
@@ -45,8 +45,8 @@ export class LogService extends BaseService<Log> {
   async clear(isAll?) {
     if (isAll) {
       // 清楚所有
-      await this.entity.clear();
-      return;
+      await this.entity.clear()
+      return
     }
 
     // 清楚过期的日志
@@ -54,17 +54,16 @@ export class LogService extends BaseService<Log> {
     if (keepDay) {
       const beforeDate = `${moment()
         .add(-keepDay, 'days')
-        .format('YYYY-MM-DD')} 00:00:00`;
+        .format('YYYY-MM-DD')} 00:00:00`
       await this.entity
         .createQueryBuilder()
-        .where('createTime < :createTime', { createTime: beforeDate });
-      await this.entity.query(
-        ' delete from log where createTime < ? ',
-        [beforeDate]
-      );
+        .where('createTime < :createTime', { createTime: beforeDate })
+      await this.entity.query(' delete from log where createTime < ? ', [
+        beforeDate
+      ])
     } else {
       // 如果没有过期日志清除所有
-      await this.entity.clear();
+      await this.entity.clear()
     }
   }
 }

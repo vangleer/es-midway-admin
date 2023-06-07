@@ -5,8 +5,8 @@ import { useUserStore } from '@/store'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
 interface ResponseType {
-  code: number,
-  data: any,
+  code: number
+  data: any
   message: string
 }
 // const instance = axios.create({
@@ -47,12 +47,14 @@ instance.interceptors.response.use(res => {
   }
 })
 
-export function post<T = any, R = ResponseType>(url: string, data?: T, config?: AxiosRequestConfig) {
+export function post<T = any, R = ResponseType>(
+  url: string,
+  data?: T,
+  config?: AxiosRequestConfig
+) {
   return instance.post<R, R>(url, data, config)
 }
 
-export {
-  instance
-}
+export { instance }
 
 export default instance

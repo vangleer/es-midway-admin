@@ -27,7 +27,6 @@ export class FileService {
     if (!fs.existsSync(url)) fs.mkdirSync(url, { recursive: true })
 
     if (mode === 'file') {
-
       for (let i = 0; i < files.length; i++) {
         // 当前文件
         const file = files[i]
@@ -94,12 +93,11 @@ export class FileService {
 
   // 导入excel
   async exportExcel(data, fileName?) {
-
-		const buffer = xlsx.build([{ name: 'sheet1', data }] as any)
-		fileName = fileName ? fileName : moment().format('YYYY-MM-DD') + '.xlsx'
-		this.ctx.attachment(fileName)
-		this.ctx.status = 200
-		this.ctx.body = buffer
+    const buffer = xlsx.build([{ name: 'sheet1', data }] as any)
+    fileName = fileName ? fileName : moment().format('YYYY-MM-DD') + '.xlsx'
+    this.ctx.attachment(fileName)
+    this.ctx.status = 200
+    this.ctx.body = buffer
   }
 
   // 获取上传文件模式 file/stream
@@ -116,6 +114,6 @@ export class FileService {
   // 获取public目录
   getPublicFolder() {
     const baseDir = this.ctx.app.getBaseDir()
-    return path.join(baseDir, '..', `public`)
+    return path.join(baseDir, '..', 'public')
   }
 }

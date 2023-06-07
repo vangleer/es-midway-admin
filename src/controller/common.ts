@@ -4,7 +4,6 @@ import { BaseController } from './base'
 
 @Controller('/common')
 export class CommonController extends BaseController {
-
   @Inject()
   file: FileService
 
