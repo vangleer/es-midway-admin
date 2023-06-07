@@ -2,7 +2,6 @@ import { Body, Inject, Post, Controller, Files } from '@midwayjs/core'
 import { LoginService } from '../service/login'
 import { BaseController } from './base'
 import { LoginDTO } from '../dto/login'
-import xlsx from 'node-xlsx'
 import { FileService } from '../service/file'
 import { Get } from '@midwayjs/decorator'
 @Controller('/open')
@@ -30,17 +29,13 @@ export class OpenController extends BaseController {
     const file = files[0]
     const data = await this.file.importExcel(file)
     // 将数据保存到数据库或者其它地方
-    return this.success(data)
+		return this.success(data)
   }
 
   @Get('/export')
   async export() {
     // 数据可以来自数据库或其它地方
-    const data = [
-      ['id', 'name'],
-      [1, '张三'],
-      [2, '李四']
-    ]
+    const data = [ [ 'id', 'name' ], [ 1, '张三' ], [ 2, '李四' ] ]
     await this.file.exportExcel(data)
   }
 }

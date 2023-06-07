@@ -53,7 +53,10 @@ class ESConfiguration {
       const data = getClassMetadata(MODEL_KEY, mod)
 
       // 得到配置信息
-      const { options = {} } = data
+      const { options = {}, routerOptions = {} } = data
+      if (routerOptions?.middleware) {
+        console.log(routerOptions, 'routerOptions')
+      }
       // 获取配置信息
       const { service, entity } = options
 

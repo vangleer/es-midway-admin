@@ -8,6 +8,7 @@ import {
 import { NextFunction } from '@midwayjs/web'
 import { LogService } from '../service/log'
 import { Context } from 'egg'
+
 @Scope(ScopeEnum.Request, { allowDowngrade: true })
 @Middleware()
 export class LogMiddleware implements IMiddleware<Context, NextFunction> {
@@ -20,7 +21,7 @@ export class LogMiddleware implements IMiddleware<Context, NextFunction> {
         ctx,
         ctx.url.split('?')[0],
         ctx.req.method === 'GET' ? ctx.request.query : ctx.request.body,
-        ctx.admin ? ctx.admin.userId : null
+        ctx.admin && ctx.admin?.user?.id || null
       )
       await next()
     }

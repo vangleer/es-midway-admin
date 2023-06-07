@@ -66,7 +66,8 @@ export function ESController(
     saveClassMetadata(
       MODEL_KEY,
       {
-        options
+        options,
+        routerOptions
       },
       target
     )
