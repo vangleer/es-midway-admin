@@ -304,6 +304,137 @@ export class OpenController extends BaseController {
 
 ## 定时任务
 
+[midwayjs任务队列](http://midwayjs.org/docs/extensions/bull)
 
+定时任务只是midwayjs任务队列的一小部分，讲这部分功能主要是为了定时清除过期日志
 
+如果想要了解midwayjs任务队列更多的内容请参考官网
 
+### 安装依赖
+
+```sh
+npm i @midwayjs/bull@3 --save
+```
+
+### 使用组件
+
+```typescript
+// src/configuration.ts
+import { Configuration } from '@midwayjs/core'
+import * as bull from '@midwayjs/bull'
+
+@Configuration({
+  imports: [
+    // ...
+    bull
+  ]
+})
+export class MainConfiguration {
+  //...
+}
+```
+
+### 配置 redis
+
+```typescript
+// src/config/config.default.ts
+
+import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core'
+export default (appInfo: MidwayAppInfo) => {
+  return {
+    // ...
+    bull: {
+      // 默认的队列配置
+      defaultQueueOptions: {
+        redis: 'redis://127.0.0.1:6379'
+        // redis: { // 有账号和密码使用
+        //   port: 6379,
+        //   host: '127.0.0.1',
+        //   password: 'foobared',
+        // }
+      }
+    }
+  } as MidwayConfig
+}
+
+```
+
+### 编写任务处理器
+
+在src目录下新建queue目录存放所有任务队列
+
+使用 `@Processor` 装饰器装饰一个类，用于快速定义一个任务处理器
+
+```typescript
+// sec/queue/log.ts
+
+import { Inject, ILogger } from '@midwayjs/core'
+import { FORMAT } from '@midwayjs/core'
+import { Processor, IProcessor } from '@midwayjs/bull'
+import { LogService } from '../service/log'
+@Processor('log', {
+  repeat: {
+    cron: FORMAT.CRONTAB.EVERY_DAY
+  }
+})
+export class LogProcessor implements IProcessor {
+  @Inject()
+  logService: LogService
+
+  @Inject()
+  logger: ILogger
+  async execute() {
+    this.logger.info('清除日志定时任务开始执行')
+    const startTime = Date.now()
+    await this.logService.clear()
+    this.logger.info(`清除日志定时任务结束，耗时:${Date.now() - startTime}ms`)
+  }
+}
+
+```
+`@Processor` 装饰器需要传递一个 Queue （队列）的名字，在框架启动时，如果没有名为 log 的队列，则会自动创建
+
+第二个参数是任务的配置选项 `repeat` 表示重复执行，可以使用 cron 表达式， 这里设置的是每隔一天清除一次
+
+在启动时，框架会自动查找并初始化上述处理器代码，同时自动创建一个名为 log 的 Queue
+
+- 有时候我们可能想要暂停和重启定时任务，我们可以提供相关的接口调用
+
+```typescript
+import { InjectQueue, BullQueue } from '@midwayjs/bull'
+import { Post } from '@midwayjs/decorator'
+import { ESController } from '../components/es'
+import { LogService } from '../service/log'
+import { BaseController } from './base'
+
+@ESController({
+  prefix: '/open/log',
+  api: ['add', 'delete', 'update', 'info', 'list', 'page'],
+  service: LogService
+})
+export class LogController extends BaseController {
+  @InjectQueue('log')
+  logQueue: BullQueue
+
+  @Post('/start')
+  async start() {
+    // 继续任务
+    await this.logQueue.resume()
+    return this.success()
+  }
+
+  @Post('/stop')
+  async stop() {
+    // 暂停任务
+    await this.logQueue.pause()
+    return this.success()
+  }
+}
+
+```
+
+## 最后
+
+本来今天还想介绍一下前端的相关界面和功能的，但发现篇幅太长，就留到下期吧
+
+不过相关代码已提交到仓库中 `web` 中，大家可作参考

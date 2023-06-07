@@ -10,17 +10,17 @@ import { BaseController } from './base'
   service: LogService
 })
 export class LogController extends BaseController {
-  @InjectQueue('test')
-  testQueue: BullQueue
+  @InjectQueue('log')
+  logQueue: BullQueue
 
   @Post('/start')
   async start() {
-    await this.testQueue.resume()
+    await this.logQueue.resume()
     return this.success()
   }
   @Post('/stop')
   async stop() {
-    await this.testQueue.pause()
+    await this.logQueue.pause()
     return this.success()
   }
 }
