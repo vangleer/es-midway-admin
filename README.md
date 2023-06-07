@@ -14,6 +14,8 @@ midwayjs + typeorm + redis
 - 用户管理
 - 角色管理
 - 权限管理
+- 文件模块、excel导入导出
+- swagger
 
 ## 具体使用
 
@@ -41,6 +43,8 @@ yarn
 yarn dev
 ```
 访问 http://localhost:3001/
+
+![web](./local/images/web.png)
 
 ## 项目搭建
 
