@@ -55,12 +55,23 @@ export default (appInfo: MidwayAppInfo) => {
     },
     es: {
       defaultUserPassword: '123456',
-      logKeep: 31 // 操作日志保存时间，单位为天
+      logKeep: 0 // 操作日志保存时间，单位为天
     },
     upload: {
       // mode: UploadMode, 默认为file，即上传到服务器临时目录，可以配置为 stream
       mode: 'file',
       whitelist: [...uploadWhiteList, '.xlsx', '.xls']
+    },
+    bull: {
+      // 默认的队列配置
+      defaultQueueOptions: {
+        redis: 'redis://127.0.0.1:6379'
+        // redis: { // 有账号和密码使用
+        //   port: 6379,
+        //   host: '127.0.0.1',
+        //   password: 'foobared',
+        // }
+      }
     }
   } as MidwayConfig
 }

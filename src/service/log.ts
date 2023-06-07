@@ -2,6 +2,7 @@ import { Provide, Inject } from '@midwayjs/core'
 import { InjectEntityModel } from '@midwayjs/typeorm'
 import { Repository } from 'typeorm'
 import { BaseService } from './base'
+import { ConfService } from './conf'
 import { Log } from '../entity/log'
 import { Utils } from '../common/utils'
 import * as _ from 'lodash'
@@ -13,10 +14,11 @@ export class LogService extends BaseService<Log> {
   entity: Repository<Log>
 
   @Inject()
-  utils: Utils
+  confService: ConfService
 
   @Inject()
-  ctx: Context
+  utils: Utils
+
   async record(context: Context, url, params, userId) {
     // 获取访问IP地址
     const ip = await this.utils.getReqIP(context)
@@ -50,7 +52,7 @@ export class LogService extends BaseService<Log> {
     }
 
     // 清楚过期的日志
-    const keepDay = this.ctx.app.config.es.logKeep || 31
+    const keepDay = await this.confService.getValue('logKeep')
     if (keepDay) {
       const beforeDate = `${moment()
         .add(-keepDay, 'days')
@@ -62,7 +64,7 @@ export class LogService extends BaseService<Log> {
         beforeDate
       ])
     } else {
-      // 如果没有过期日志清除所有
+      // 如果没有过期时间清除所有
       await this.entity.clear()
     }
   }

@@ -1,6 +1,6 @@
 # es-midway-admin
 
-midwayjs基础后台管理系统(六)-操作日志、websocket通信、前台界面介绍
+midwayjs基础后台管理系统(六)-操作日志、任务队列、前台界面介绍
 
 [github仓库地址](https://github.com/vangleer/es-midway-admin)
 
@@ -20,7 +20,7 @@ midwayjs + typeorm + redis
 ## 本章内容
 
 - 用户操作日志记录
-- websocket通信
+- 任务队列
 - 前台界面介绍
 
 ## 用户操作日志记录
