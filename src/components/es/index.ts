@@ -54,7 +54,8 @@ class ESConfiguration {
         return this.logger.error(`\x1B[36m [${COMPONENT_KEY}] ${mod.name} ESController decorator need an entity or a service \x1B[0m`)
       }
       const globalRouterPrefix = this.app.config?.egg?.globalPrefix || ''
-      this.logger.info(`\x1B[36m [${COMPONENT_KEY}] auto router prefix "${globalRouterPrefix}${options.prefix}"  \x1B[0m`);
+      const routePrefix = `${globalRouterPrefix}${options.prefix}`
+      this.logger.info(`\x1B[36m [${COMPONENT_KEY}] auto router prefix "${routePrefix}"  \x1B[0m`);
       for (const url of apis) {
         this.webRouterService.addRouter(async (ctx) => {
           // 获取 service
@@ -77,7 +78,7 @@ class ESConfiguration {
               return this.baseController.success(await baseService[url](body))
           }
         }, {
-          url: `${options.prefix}/${url}`,
+          url: `${routePrefix}/${url}`,
           requestMethod: 'POST'
         })
       }

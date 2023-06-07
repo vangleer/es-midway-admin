@@ -13,6 +13,7 @@ import * as swagger from '@midwayjs/swagger'
 import * as es from './components/es'
 import { ExceptionFilter } from './filter/exception'
 import { AuthorityMiddleware } from './middleware/authority'
+import { LogMiddleware } from './middleware/log'
 @Configuration({
   imports: [
     egg, orm, jwt, cache, captcha, staticFile, validate, upload, es,
@@ -33,6 +34,6 @@ export class ContainerLifeCycle implements ILifeCycle {
 
   async onReady() {
     this.app.useFilter(ExceptionFilter as any)
-    this.app.useMiddleware(AuthorityMiddleware as any)
+    this.app.useMiddleware([AuthorityMiddleware, LogMiddleware] as any)
   }
 }

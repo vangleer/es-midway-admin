@@ -1,6 +1,5 @@
 import { MidwayConfig, MidwayAppInfo } from '@midwayjs/core'
 import { uploadWhiteList } from '@midwayjs/upload'
-console.log(uploadWhiteList)
 // import * as redisStore from 'cache-manager-ioredis'
 export default (appInfo: MidwayAppInfo) => {
   return {
@@ -55,7 +54,8 @@ export default (appInfo: MidwayAppInfo) => {
       expirationTime: 3600 // 验证码过期时间，单位为秒s，默认一小时 3600
     },
     es: {
-      defaultUserPassword: '123456'
+      defaultUserPassword: '123456',
+      logKeep: 31 // 操作日志保存时间，单位为天
     },
     upload: {
       // mode: UploadMode, 默认为file，即上传到服务器临时目录，可以配置为 stream

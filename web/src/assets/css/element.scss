@@ -1,0 +1,46 @@
+.el-pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  .el-icon {
+    font-size: 18px;
+  }
+}
+.el-dialog {
+  .el-dialog__header {
+    border: 1px solid #e5e8eb;
+    margin-right: 0px;
+    .el-dialog__title {
+      font-weight: 700;
+    }
+  }
+}
+
+.es-views {
+  .el-date-editor.el-date-editor--daterange {
+    width: 100%;
+  }
+  .es-table {
+    .el-button.is-link {
+      margin-left: 2px;
+    }
+  }
+  .es-table, .el-dialog {
+    .el-button--primary {
+      --el-button-hover-link-text-color: var(--el-color-primary);
+    }
+  }
+}
+
+.es-views {
+  .el-form {
+    .el-select {
+      width: 100%;
+    }
+  }
+  .el-table .caret-wrapper {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+  }
+}

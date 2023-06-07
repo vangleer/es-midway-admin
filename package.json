@@ -25,6 +25,7 @@
     "cache-manager": "^5.2.0",
     "cache-manager-ioredis": "^2.1.0",
     "egg": "^2.0.0",
+    "ipip-ipdb": "^0.6.0",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "moment": "^2.29.4",
