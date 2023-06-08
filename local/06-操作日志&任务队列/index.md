@@ -1,6 +1,6 @@
 # es-midway-admin
 
-midwayjs基础后台管理系统(六)-操作日志、任务队列、前台界面介绍
+midwayjs基础后台管理系统(六)-操作日志、任务队列
 
 [github仓库地址](https://github.com/vangleer/es-midway-admin)
 
@@ -44,13 +44,12 @@ yarn dev
 ```
 访问 http://localhost:3001/
 
-![web](../images/web.png)
+![web.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ea02f1979bbe4c118103169b775f9174~tplv-k3u1fbpfcp-watermark.image?)
 
 ## 本章内容
 
 - 用户操作日志记录
 - 任务队列
-- 前台界面介绍
 
 ## 用户操作日志记录
 
@@ -464,6 +463,6 @@ export class LogController extends BaseController {
 
 ## 最后
 
-本来今天还想介绍一下前端的相关界面和功能的，但发现篇幅太长，就留到下期吧
+本来还想介绍一下前端的相关界面和功能的，但发现篇幅太长，就留到下期吧
 
 不过相关代码已提交到仓库中 `web` 中，大家可作参考

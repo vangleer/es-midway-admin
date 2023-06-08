@@ -44,7 +44,7 @@ yarn dev
 ```
 访问 http://localhost:3001/
 
-![web](./local/images/web.png)
+![web.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ea02f1979bbe4c118103169b775f9174~tplv-k3u1fbpfcp-watermark.image?)
 
 ## 项目搭建
 

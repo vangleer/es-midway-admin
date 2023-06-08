@@ -14,6 +14,37 @@ midwayjs + typeorm + redis
 - 用户管理
 - 角色管理
 - 权限管理
+- 文件模块、excel导入导出
+- swagger
+
+## 具体使用
+
+### 克隆代码到本地
+
+```sh
+git clone https://github.com/vangleer/es-midway-admin.git
+```
+
+### 启动后端
+
+需提前安装mysql和redis，导入默认数据 src/entity/init.sql（默认路由、配置等）
+
+```sh
+cd es-midway-admin
+yarn
+yarn dev
+```
+
+### 启动前端
+
+```sh
+cd web
+yarn
+yarn dev
+```
+访问 http://localhost:3001/
+
+![web.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ea02f1979bbe4c118103169b775f9174~tplv-k3u1fbpfcp-watermark.image?)
 
 ## 项目搭建
 
