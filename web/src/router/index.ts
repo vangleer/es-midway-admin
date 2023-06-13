@@ -29,6 +29,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/im',
+    component: () => import('@/components/IM.vue')
   }
 ]
 
@@ -38,23 +42,28 @@ const router = createRouter({
 })
 
 // 路由白名单
-const whiteList = ['/login']
+const whiteList = ['/login', '/im']
 router.beforeEach(async (to, from, next) => {
   const store = useUserStore()
   const token = getToken()
   if (to.path === '/login') {
+    // 访问登录页清空用户信息
     store.removeUser()
     next()
   } else {
+    // 放行白名单
     if (whiteList.includes(to.path)) return next()
 
+    // 无token重定向到登录页
     if (!token) return next({ path: '/login', replace: true })
 
     if (!useAuthStore().routeList.length) {
+      // 如果authStore中没有权限信息，获取用户权限生成路由
       await addRoutes()
       return next({ ...to, replace: true })
     }
 
+    // 保存当前路由
     useAppStore().saveCurrentRoute(to as any)
     next()
   }

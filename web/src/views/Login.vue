@@ -66,7 +66,7 @@ async function toLogin() {
       router.push('/')
     }
   } catch (err: any) {
-    console.log(err)
+    getCodeImage()
   }
 
   saving.value = false

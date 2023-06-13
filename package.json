@@ -23,6 +23,8 @@
     "@midwayjs/upload": "^3.11.6",
     "@midwayjs/validate": "^3.11.1",
     "@midwayjs/web": "^3.0.0",
+    "@midwayjs/ws": "3",
+    "@types/ws": "^8.5.5",
     "cache-manager": "^5.2.0",
     "cache-manager-ioredis": "^2.1.0",
     "egg": "^2.0.0",
