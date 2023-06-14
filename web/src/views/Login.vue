@@ -61,7 +61,7 @@ async function toLogin() {
   try {
     const res = await loginService.login(form)
     if (res.code === 200) {
-      const data = { username: form.username, token: res.data.token }
+      const data = { username: form.username, token: res.data.token, userid: res.data.userInfo.id }
       await useUserStore().saveUser(data)
       router.push('/')
     }

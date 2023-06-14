@@ -17,11 +17,12 @@ type UserState = {
 export const useUserStore = defineStore('user', {
   state: (): UserState => getStorage('userinfo') || {},
   actions: {
-    async saveUser({ token, username }: UserState) {
+    async saveUser({ token, username, userid }: UserState) {
       this.username = username
       this.token = token
+      this.userid = userid
       setToken(token)
-      setStorage('userinfo', { token, username })
+      setStorage('userinfo', { token, username, userid })
     },
     removeUser() {
       removeToken()
@@ -30,6 +31,7 @@ export const useUserStore = defineStore('user', {
       router.removeRoute('/')
       this.username = ''
       this.token = ''
+      this.userid = ''
     }
   }
 })

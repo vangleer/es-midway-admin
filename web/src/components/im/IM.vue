@@ -2,7 +2,11 @@
   <div class="es-im">
     <div class="es-im-container">
       <div class="es-im-user-list">
-        <div v-for="item in userList" class="es-im-user-item">
+        <div
+          v-for="item in userList"
+          :class="['es-im-user-item', { active: chatUser.id === item.id }]"
+          @click="handleUserClick(item)"
+        >
           <div class="es-im-avatar">
             <img src="https://dummyimage.com/40x40/cd79f2/FFF.png&text=J" alt="">
           </div>
@@ -18,17 +22,17 @@
       <div class="es-im-chatbox">
         <div class="es-im-info">
           <div class="es-im-info-list">
-            <div v-for="item, index in list" :class="['es-im-info-item', { active: index % 2 === 0 }]">
-              <div v-if="index % 2 !== 0" class="es-im-avatar">
+            <div v-for="item in list" :class="['es-im-info-item', { active: item.fromUserId === userStore.userid }]">
+              <div v-if="item.fromUserId !== userStore.userid" class="es-im-avatar">
                 <img src="https://dummyimage.com/40x40/cd79f2/FFF.png&text=J" alt="">
               </div>
               <div class="es-im-message">
                 <div class="es-im-title">lisi</div>
                 <div class="es-im-content">
-                  <div class="is-text">{{ item }}</div>
+                  <div class="is-text">{{ item.content }}</div>
                 </div>
               </div>
-              <div v-if="index % 2 === 0" class="es-im-avatar">
+              <div v-if="item.fromUserId === userStore.userid" class="es-im-avatar">
                 <img src="https://dummyimage.com/40x40/cd79f2/FFF.png&text=J" alt="">
               </div>
             </div>
@@ -57,24 +61,34 @@
 import { ref, onMounted, shallowRef } from 'vue'
 import userService from '@/api/system/user'
 import { io, Socket } from 'socket.io-client'
+import { useUserStore } from '@/store'
+const userStore = useUserStore()
 const message = ref<string>('')
-const list = ref<string[]>([])
+const list = ref<any[]>([])
 const userList = ref<any>([])
+const chatUser = ref<any>({})
 const socket = shallowRef<Socket | null>(null)
 
+console.log(userStore)
 function handleSendMessage() {
   if (!message.value && !message.value.trim()) return
-
-  list.value.push(message.value)
-  socket.value?.emit('chat', message.value)
+  socket.value?.emit('chat', {
+    fromUserId: userStore.userid,
+    toUserId: chatUser.value.id,
+    content: message.value
+  })
   message.value = ''
 }
-
+// 点击聊天列表
+function handleUserClick(item) {
+  chatUser.value = item
+}
 async function getUserList() {
   const res = await userService.list()
   console.log(res)
   if (res.code === 200) {
     userList.value = res.data
+    chatUser.value = res.data[0]
   }
 }
 onMounted(() => {
@@ -85,7 +99,6 @@ onMounted(() => {
     console.log('connect', e)
   })
   socket.value.on('chat', (data) => {
-    console.log(data, 'data')
     list.value.push(data)
   })
 
@@ -114,6 +127,10 @@ onMounted(() => {
     .es-im-user-item {
       display: flex;
       padding: 15px 10px;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: #eee;
+      }
     }
     .es-im-avatar {
       margin-right: 10px;
