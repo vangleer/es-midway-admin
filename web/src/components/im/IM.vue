@@ -1,7 +1,20 @@
 <template>
   <div class="es-im">
     <div class="es-im-container">
-      <div class="es-im-user-list"></div>
+      <div class="es-im-user-list">
+        <div v-for="item in userList" class="es-im-user-item">
+          <div class="es-im-avatar">
+            <img src="https://dummyimage.com/40x40/cd79f2/FFF.png&text=J" alt="">
+          </div>
+          <div class="es-im-user-content">
+            <div class="es-im-title">{{ item.username }}</div>
+              <div class="es-im-content">
+                <div class="text">lalasdasdasdas</div>
+              </div>
+          </div>
+          <div class="es-im-user-status">07:59:44</div>
+        </div>
+      </div>
       <div class="es-im-chatbox">
         <div class="es-im-info">
           <div class="es-im-info-list">
@@ -41,26 +54,41 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, onMounted } from 'vue'
-
+import { ref, onMounted, shallowRef } from 'vue'
+import userService from '@/api/system/user'
+import { io, Socket } from 'socket.io-client'
 const message = ref<string>('')
 const list = ref<string[]>([])
+const userList = ref<any>([])
+const socket = shallowRef<Socket | null>(null)
 
 function handleSendMessage() {
   if (!message.value && !message.value.trim()) return
 
   list.value.push(message.value)
+  socket.value?.send('myEvent', message.value)
   message.value = ''
 }
-onMounted(() => {
-  const socket = new WebSocket('ws://localhost:7001')
 
-  socket.addEventListener('open', () => {
-    console.log('open')
+async function getUserList() {
+  const res = await userService.list()
+  console.log(res)
+  if (res.code === 200) {
+    userList.value = res.data
+  }
+}
+onMounted(() => {
+
+  socket.value = io('/socket')
+
+  socket.value.on('connect', (e) => {
+    console.log('connect', e)
   })
-  socket.addEventListener('message', (e) => {
+  socket.value.on('data', (e) => {
     console.log('message', e)
   })
+
+  getUserList()
 })
 </script>
 
@@ -81,7 +109,42 @@ onMounted(() => {
     position: absolute;
     left: 5px;
     top: 5px;
-    background-color: red;
+    background-color: #fff;
+    .es-im-user-item {
+      display: flex;
+      padding: 15px 10px;
+    }
+    .es-im-avatar {
+      margin-right: 10px;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .es-im-user-content {
+      flex: 1;
+      font-size: 12px;
+      color: #666;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .es-im-title {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      .es-im-content .text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+      }
+    }
+    .es-im-user-status {
+      font-size: 12px;
+      color: #999;
+    }
+
   }
   .es-im-chatbox {
     position: relative;

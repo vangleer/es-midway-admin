@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/im',
-    component: () => import('@/components/IM.vue')
+    component: () => import('@/components/im/IM.vue')
   }
 ]
 

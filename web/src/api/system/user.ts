@@ -17,7 +17,7 @@ export default {
   info(data) {
     return post('/user/info', data)
   },
-  list(data) {
+  list(data?) {
     return post('/user/list', data)
   },
   getUserRole() {

@@ -1,28 +1,19 @@
-import { WSController, OnWSConnection, OnWSMessage, OnWSDisConnection, Inject, App } from '@midwayjs/core'
-import { Context, Application } from '@midwayjs/ws'
-import * as http from 'http'
-@WSController()
+import { WSController, OnWSConnection, Inject, OnWSMessage } from '@midwayjs/core'
+import { Context } from '@midwayjs/socketio'
+
+@WSController('/socket')
 export class HelloSocketController {
-  @App('webSocket')
-  wsApp: Application
+
   @Inject()
   ctx: Context
 
-  // 有客户端连接
   @OnWSConnection()
-  async onConnectionMethod(socket: Context, request: http.IncomingMessage) {
-    console.log(`namespace / got a connection ${this.ctx.readyState}`)
+  async onConnectionMethod() {
+    console.log('on client connect', this.ctx.id)
   }
 
-  // 接收消息
-  @OnWSMessage('message')
+  @OnWSMessage('myEvent')
   async gotMessage(data) {
-    return { name: 'harry', result: parseInt(data) + 5 }
-  }
-
-  // 断开连接
-  @OnWSDisConnection()
-  async disconnect(id: number) {
-    console.log('disconnect ' + id)
+    console.log('on data got', this.ctx.id, data)
   }
 }

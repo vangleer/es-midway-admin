@@ -18,7 +18,7 @@ import * as upload from '@midwayjs/upload'
 import * as swagger from '@midwayjs/swagger'
 import * as es from './components/es'
 import * as bull from '@midwayjs/bull'
-import * as ws from '@midwayjs/ws'
+import * as socketio from '@midwayjs/socketio'
 import { ExceptionFilter } from './filter/exception'
 import { AuthorityMiddleware } from './middleware/authority'
 import { LogMiddleware } from './middleware/log'
@@ -34,7 +34,7 @@ import { LogMiddleware } from './middleware/log'
     upload,
     es,
     bull,
-    ws,
+    socketio,
     {
       component: swagger,
       enabledEnvironment: ['local']
