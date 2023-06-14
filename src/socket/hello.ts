@@ -1,6 +1,5 @@
 import { WSController, OnWSConnection, Inject, OnWSMessage } from '@midwayjs/core'
 import { Context } from '@midwayjs/socketio'
-
 @WSController('/socket')
 export class HelloSocketController {
 
@@ -12,8 +11,9 @@ export class HelloSocketController {
     console.log('on client connect', this.ctx.id)
   }
 
-  @OnWSMessage('myEvent')
+  @OnWSMessage('chat')
   async gotMessage(data) {
-    console.log('on data got', this.ctx.id, data)
+    // this.ctx.emit('chat', data)
+    this.ctx.broadcast.emit('chat', data)
   }
 }

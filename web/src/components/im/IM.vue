@@ -66,7 +66,7 @@ function handleSendMessage() {
   if (!message.value && !message.value.trim()) return
 
   list.value.push(message.value)
-  socket.value?.send('myEvent', message.value)
+  socket.value?.emit('chat', message.value)
   message.value = ''
 }
 
@@ -84,8 +84,9 @@ onMounted(() => {
   socket.value.on('connect', (e) => {
     console.log('connect', e)
   })
-  socket.value.on('data', (e) => {
-    console.log('message', e)
+  socket.value.on('chat', (data) => {
+    console.log(data, 'data')
+    list.value.push(data)
   })
 
   getUserList()
