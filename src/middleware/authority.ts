@@ -16,8 +16,8 @@ export class AuthorityMiddleware implements IMiddleware<Context, NextFunction> {
     return async (ctx: Context, next: NextFunction) => {
       // 获取token
       const token = ctx.get('Authorization')
-
       // 没传token抛出异常
+      console.log(ctx.request)
       if (!token) {
         throw new CustomHttpError('token已过期或未授权', 401)
       }

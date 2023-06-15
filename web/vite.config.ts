@@ -39,11 +39,15 @@ export default defineConfig(({ mode }): UserConfig => {
           target: 'http://127.0.0.1:7001/public',
           changeOrigin: true
         },
-        '/socket': {
+        '/socket.io': {
           target: 'http://127.0.0.1:7001',
-          changeOrigin: true,
-          // rewrite: (path) => path.replace('/socket', '')
-        }
+          changeOrigin: true
+        },
+        // '/socket': {
+        //   target: 'http://127.0.0.1:7001',
+        //   changeOrigin: true,
+        //   // rewrite: (path) => path.replace('/socket', '')
+        // }
       }
     }
   }
