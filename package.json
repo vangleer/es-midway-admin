@@ -18,7 +18,6 @@
     "@midwayjs/decorator": "^3.0.0",
     "@midwayjs/jwt": "^3.11.0",
     "@midwayjs/orm": "^3.4.3",
-    "@midwayjs/socketio": "^3.11.10",
     "@midwayjs/static-file": "^3.11.0",
     "@midwayjs/swagger": "3",
     "@midwayjs/typeorm": "^3.11.0",

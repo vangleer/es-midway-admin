@@ -26,4 +26,9 @@ export class LogMiddleware implements IMiddleware<Context, NextFunction> {
       await next()
     }
   }
+
+  ignore(ctx: Context): boolean {
+    // 忽略接口，如：/open/login，/open/captcha 等
+    return /.*open.*|.*socket.*/.test(ctx.path)
+  }
 }

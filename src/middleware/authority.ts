@@ -48,6 +48,6 @@ export class AuthorityMiddleware implements IMiddleware<Context, NextFunction> {
 
   ignore(ctx: Context): boolean {
     // 忽略接口，如：/open/login，/open/captcha 等
-    return /.*open.*/.test(ctx.path)
+    return /.*open.*|.*socket.*/.test(ctx.path)
   }
 }
