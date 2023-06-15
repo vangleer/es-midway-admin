@@ -72,6 +72,12 @@ export default (appInfo: MidwayAppInfo) => {
         //   password: 'foobared',
         // }
       }
+    },
+    socketIO: {
+      transports: ['websocket'],
+      cors: {
+        origin: '*'
+      }
     }
   } as MidwayConfig
 }

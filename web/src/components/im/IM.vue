@@ -61,21 +61,22 @@
 import { ref, onMounted, shallowRef } from 'vue'
 import userService from '@/api/system/user'
 import { useUserStore } from '@/store'
+import { io, Socket } from 'socket.io-client'
 const userStore = useUserStore()
 const message = ref<string>('')
 const list = ref<any[]>([])
 const userList = ref<any>([])
 const chatUser = ref<any>({})
-const socket = shallowRef<WebSocket | null>(null)
+const socket = shallowRef<Socket | null>(null)
 
 console.log(userStore)
 function handleSendMessage() {
   if (!message.value && !message.value.trim()) return
-  socket.value?.send(JSON.stringify({
+  socket.value?.emit('chat', {
     fromUserId: userStore.userid,
     toUserId: chatUser.value.id,
     content: message.value
-  }))
+  })
   message.value = ''
 }
 // 点击聊天列表
@@ -92,12 +93,12 @@ async function getUserList() {
 }
 onMounted(() => {
 
-  socket.value = new WebSocket('ws://127.0.0.1:7001')
-
-  socket.value.addEventListener('open', (e) => {
-    console.log('open', e)
+  socket.value = io('ws://127.0.0.1:7001', { transports: ['websocket'] })
+  console.log(socket.value, 'socket.value')
+  socket.value.on('connect', (e) => {
+    console.log('connect', e)
   })
-  socket.value.addEventListener('message', (data) => {
+  socket.value.on('chat', (data) => {
     list.value.push(data)
   })
 
