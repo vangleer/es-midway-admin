@@ -3,9 +3,9 @@ import { BaseEntity } from './base'
 
 @Entity('chat')
 export class Chat extends BaseEntity {
-  @Column({ comment: '发送人id', nullable: true, type: 'bigint' })
+  @Column({ comment: '发送人id', type: 'int' })
   fromUserId: number
-  @Column({ comment: '接收人id', nullable: true, type: 'bigint' })
+  @Column({ comment: '接收人id', type: 'int' })
   toUserId: number
 
   @Column({ comment: '发送内容', length: 100 })
