@@ -75,9 +75,9 @@ export default (appInfo: MidwayAppInfo) => {
     },
     socketIO: {
       transports: ['websocket'],
-      cors: {
-        origin: '*'
-      }
+      // cors: {
+      //   origin: '*'
+      // }
     }
   } as MidwayConfig
 }

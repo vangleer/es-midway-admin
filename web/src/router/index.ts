@@ -33,6 +33,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/im',
     component: () => import('@/components/im/IM.vue')
+  },
+  {
+    path: '/temp',
+    component: () => import('@/components/temp.vue')
   }
 ]
 

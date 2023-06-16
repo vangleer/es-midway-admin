@@ -16,6 +16,7 @@ midwayjs + typeorm + redis
 - 权限管理
 - 文件模块、excel导入导出
 - swagger
+- 聊天功能
 
 ## 具体使用
 
@@ -28,6 +29,8 @@ git clone https://github.com/vangleer/es-midway-admin.git
 ### 启动后端
 
 需提前安装mysql和redis，导入默认数据 src/entity/init.sql（默认路由、配置等）
+
+> 注意：没安装 redis 需要把任务队列相关功能注释
 
 ```sh
 cd es-midway-admin
