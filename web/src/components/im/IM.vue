@@ -8,7 +8,7 @@
           @click="handleUserClick(item)"
         >
           <div class="es-im-avatar">
-            <img src="https://dummyimage.com/40x40/cd79f2/FFF.png&text=J" alt="">
+            <div class="es-im-avatar-img" :style="{ background: item.color }">{{ item.username.substring(0, 1) }}</div>
           </div>
           <div class="es-im-user-content">
             <div class="es-im-title">{{ item.username }}</div>
@@ -24,7 +24,7 @@
           <div ref="innerRef" class="es-im-info-list">
             <div v-for="item in messageList" :class="['es-im-info-item', { active: item.self }]">
               <div v-if="!item.self" class="es-im-avatar">
-                <img src="https://dummyimage.com/40x40/cd79f2/FFF.png&text=J" alt="">
+                <div class="es-im-avatar-img" :style="{ background: chatUser.color }">{{ item.toUserName.substring(0, 1) }}</div>
               </div>
               <div class="es-im-message">
                 <div class="es-im-title">{{ item.self ? item.fromUserName : item.toUserName }}</div>
@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div v-if="item.self" class="es-im-avatar">
-                <img src="https://dummyimage.com/40x40/cd79f2/FFF.png&text=J" alt="">
+                <div class="es-im-avatar-img">{{ item.fromUserName.substring(0, 1) }}</div>
               </div>
             </div>
           </div>
@@ -62,6 +62,7 @@ import { ref, onMounted, shallowRef, computed, onBeforeUnmount, nextTick } from 
 import { useUserStore } from '@/store'
 import { io, Socket } from 'socket.io-client'
 import { dayjs, ScrollbarInstance } from 'element-plus'
+const avatarColors = ['#3a7afe', '#00afef', '#00c48f', '#ff9f00', '#f44336']
 const userStore = useUserStore()
 const message = ref<string>('')
 const list = ref<any[]>([])
@@ -83,6 +84,9 @@ const messageList = computed(() => {
   })
 })
 
+/**
+ * 点击发送
+ */
 function handleSendMessage() {
   if (!message.value && !message.value.trim()) return
   socket.value?.emit('chat', {
@@ -106,7 +110,7 @@ function handleUserClick(item) {
  */
 async function getUserList() {
   socket.value?.emit('userList', { userId: userStore.userid }, (data) => {
-    userList.value = data
+    userList.value = data.map(item => ({ ...item, color: avatarColors[Math.floor(Math.random() * avatarColors.length)] }))
     // 默认与列表的第一位朋友聊天
     chatUser.value = userList.value[0]
     getChatList()
@@ -169,11 +173,10 @@ onBeforeUnmount(() => {
 
 <style lang='scss' scoped>
 .es-im-container {
-  width: 1200px;
+  width: 100%;
   height: 630px;
   display: flex;
   justify-content: flex-end;
-  background-color: #eee;
   padding: 5px;
   box-sizing: border-box;
   position: relative;
@@ -193,13 +196,7 @@ onBeforeUnmount(() => {
         background-color: #eee;
       }
     }
-    .es-im-avatar {
-      margin-right: 10px;
-      img {
-        width: 40px;
-        height: 40px;
-      }
-    }
+
     .es-im-user-content {
       flex: 1;
       font-size: 12px;
@@ -289,6 +286,21 @@ onBeforeUnmount(() => {
         right: 10px;
         bottom: 10px;
       }
+    }
+  }
+
+  .es-im-avatar {
+    margin-right: 10px;
+    .es-im-avatar-img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background-color: #3a7afe;
+      border-radius: 4px;
+      font-size: 18px;
+      color: #fff;
     }
   }
 }

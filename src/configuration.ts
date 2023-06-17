@@ -17,7 +17,7 @@ import * as validate from '@midwayjs/validate'
 import * as upload from '@midwayjs/upload'
 import * as swagger from '@midwayjs/swagger'
 import * as es from './components/es'
-import * as bull from '@midwayjs/bull'
+// import * as bull from '@midwayjs/bull'
 import * as socketio from '@midwayjs/socketio'
 import { ExceptionFilter } from './filter/exception'
 import { AuthorityMiddleware } from './middleware/authority'
@@ -33,7 +33,7 @@ import { LogMiddleware } from './middleware/log'
     validate,
     upload,
     es,
-    bull,
+    // bull,
     socketio,
     {
       component: swagger,

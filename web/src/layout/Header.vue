@@ -10,6 +10,7 @@
       </template>
       <Menu v-else />
     </div>
+    <Chat />
     <div class="es-header-user es-action-btn">
       <el-dropdown trigger="click">
         <el-button type="info" link>
@@ -34,6 +35,7 @@ import Menu from './components/Menu.vue'
 import Settings from './components/Settings.vue'
 import Breadcrumb from './components/Breadcrumb.vue'
 import Collapse from './components/Collapse.vue'
+import Chat from './components/Chat.vue'
 import userIcon from '@/assets/images/user.webp'
 import { useAppStore, useUserStore } from '@/store'
 import { useRouter } from 'vue-router'
