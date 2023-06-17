@@ -371,10 +371,10 @@ export class HelloSocketController {
 
 - `chatList` 和 `getUserList` 方法返回的是上面业务层的聊天记录列表和通讯录列表
 
-- `gotMessage` 方法的功能是接收消息，发送的消息
+- `gotMessage` 方法的功能是接收/发送消息
 
   1. 接收 发送者id，发送对象id，发送内容
-  2. 将内容存到数据库中
+  2. 将数据存到数据库中
   3. 用两者的id生成发送事件名称（也可以使用其他规则），这样只有聊天双方能接收到对应的消息
 
 ![05](./images/05.png)
@@ -389,6 +389,7 @@ export class HelloSocketController {
 npm i socket.io-client
 ```
 
+- `web/src/components/im/IM.vue` 的逻辑部分
 
 ```typescript
 import { ref, onMounted, shallowRef, computed, onBeforeUnmount, nextTick } from 'vue'
@@ -489,7 +490,7 @@ function setScroll() {
   })
 }
 onMounted(() => {
-  // 简历websocket连接
+  // 建立websocket连接
   socket.value = io('ws://127.0.0.1:7001', { transports: ['websocket'] })
   // 连接后获取左侧列表
   socket.value.on('connect', () => getUserList())
@@ -510,3 +511,6 @@ onBeforeUnmount(() => {
 2. 在 `getChatList` 方法中，由于每次切换聊天对象都需要重新定义接收消息的topic，需要把前一次的监听移除
 
 
+## 最后
+
+以上只是聊天功能的简单模板，有许多细节的地方并没有涉及，例如已读未读状态，发送图片和文件等。可以根据具体的需求扩展
