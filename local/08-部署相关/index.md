@@ -20,7 +20,7 @@ midwayjs基础后台管理系统(八)-部署相关
 
 由于项目依赖mysql和redis，我们需要提前安装好
 
-这里为了方便就直接使用docker了，如果还没安装docker的可以先安装以下，后面也会用到的
+这里为了方便就直接使用docker了，如果还没安装docker的可以先安装起来
 
 - 启动 mysql，这里密码设置的和我们代码一样 root
 
@@ -105,8 +105,6 @@ sudo pm2 start bootstrap.js --name server
 
 - `pm2 logs server` 查看运行日志
 
-- `pm2 list` 查看运行状态
-
 ![03](./images/03.png)
 
 访问 http://192.168.134.128:7001 有返回结果说明部署成功了
@@ -128,7 +126,24 @@ sudo pm2 unstartup systemd # 删除自动启动服务
 ### mysql和redis连接的问题
 
 
-由于我们服务中使用mysql和redis，并且连接的host是localhost或127.0.0.1。又因为我们是单独起的mysql和redis因此无法通过 localhost或127.0.0.1 直接访问，我们先暂时将连接的host改为服务器的ip
+由于我们服务中使用mysql和redis，并且连接的host是localhost或127.0.0.1。又因为我们是单独起的mysql和redis因此无法通过 localhost或127.0.0.1 直接访问，我们先暂时将连接的host改为服务器的ip，后面使用 docker-compose 部署不存在此问题
+
+```typescript
+// src/config/config.default.ts
+export default (appInfo: MidwayAppInfo) => {
+  return {
+    typeorm: {
+      dataSource: {
+        default: {
+          host: '192.168.134.128'
+        }
+      }
+    },
+  } as MidwayConfig
+}
+
+
+```
 
 ### 编写 Dockerfile，构建镜像
 
@@ -180,7 +195,7 @@ sudo docker run -itd --name server -p 7001:7001 server
 
 在这一节也把前端部署整合起来
 
-### 新增 `web/nginx.conf`
+### 新增 `web/nginx.conf`，配置nginx代理
 
 ```conf
 server {
@@ -287,7 +302,6 @@ location /v1/ {
 在docker-compose.yml文件目录运行 `sudo docker-compose up` 启动所有服务
 
 `sudo docker-compose up -d` 后台启动
-
 
 
 在部署过程中可能会遇到数据库没有创建的问题（正常情况下不会有）
