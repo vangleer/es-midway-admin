@@ -270,10 +270,54 @@ services:
 
 - 启动mysql时可以直接添加初始化执行的sql文件
 - server启动依赖mysql和redis，需要添加 depends_on 等依赖的服务启动后再启动
-- web 使用的是nginx镜像，将打包好的目录映射到ngins的html中
+- web 使用的是nginx镜像，将打包好的目录映射到ngins的html中，nginx.conf中的代理可以是服务器ip地址或者服务名称，例如
+
+```conf
+location /v1/ {
+  proxy_pass http://192.168.134.128:7001;
+}
+# or
+location /v1/ {
+  proxy_pass http://server:7001;
+}
+
+```
 
 
 在docker-compose.yml文件目录运行 `sudo docker-compose up` 启动所有服务
 
 `sudo docker-compose up -d` 后台启动
 
+
+
+在部署过程中可能会遇到数据库没有创建的问题（正常情况下不会有）
+
+可以先启动 mysql 然后使用客户端连接创建数据库执行初始化sql文件
+
+```sh
+sudo docker-compose up mysql -d
+```
+
+导入导入数据后
+
+```sh
+sudo docker-compose up -d
+```
+
+docker-compose 几个常用的命令
+```sh
+# 启动指定服务
+docker-compose up mysql
+
+# 启动所有：会打印日志
+docker-compose up
+
+# 启动所有：后台启动
+docker-compose up -d
+
+# 停止所有服务
+docker-compose down
+
+# 查看日志
+docker-compose logs
+```
