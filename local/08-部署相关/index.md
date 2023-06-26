@@ -103,6 +103,8 @@ sudo npm install
 sudo pm2 start bootstrap.js --name server
 ```
 
+- `pm2 logs server` 查看运行日志
+
 - `pm2 list` 查看运行状态
 
 ![03](./images/03.png)
@@ -123,10 +125,14 @@ sudo pm2 unstartup systemd # 删除自动启动服务
 
 ## 使用 Docker 部署
 
+### mysql和redis连接的问题
+
+
+由于我们服务中使用mysql和redis，并且连接的host是localhost或127.0.0.1。又因为我们是单独起的mysql和redis因此无法通过 localhost或127.0.0.1 直接访问，我们先暂时将连接的host改为服务器的ip
+
 ### 编写 Dockerfile，构建镜像
 
 步骤一：在当前目录下新增Dockerfile
-
 
 ```sh
 FROM node::16-alpine
@@ -157,8 +163,54 @@ sudo docker build -t server .
 ```
 ![04](./images/04.png)
 
-步骤五：运行 docker 镜像
+步骤五：运行 docker 镜像，运行的时候同样要运行到 test网络下
 
 ```sh
 sudo docker run -itd --name server -p 7001:7001 server
 ```
+
+![05](./images/05.png)
+
+使用 `sudo docker logs server` 查看运行日志
+
+
+## 结合 Docker-Compose 运行
+
+在 docker 部署的基础上，还可以结合 docker-compose 配置项目依赖的服务，实现快速部署整个项目。
+
+在这一节也把前端部署整合起来
+
+### 新增 `web/nginx.conf`
+
+```conf
+server {
+  listen  80;
+  server_name  localhost;
+
+  #charset koi8-r;
+  access_log  /var/log/nginx/host.access.log  main;
+  error_log  /var/log/nginx/error.log  error;
+
+  location / {
+      root   /usr/share/nginx/html;
+      index  index.html index.htm;
+  }
+
+  #error_page  404              /404.html;
+
+  # redirect server error pages to the static page /50x.html
+  #
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+      root   /usr/share/nginx/html;
+  }
+  location /v1/ {
+    proxy_pass http://192.168.134.128:7004;
+  }
+}
+
+```
+
+### 编写docker-compose.yml
+
+
