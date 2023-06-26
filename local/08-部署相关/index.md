@@ -150,14 +150,15 @@ CMD ["npm", "run", "start"]
 
 步骤二: 新增 .dockerignore 文件（类似 git 的 ignore 文件），可以把 .gitignore 的内容拷贝到 .dockerignore 里面
 
-步骤三：构建 docker 镜像
+步骤三：构建 docker 镜像，构建完成后使用 `sudo docker images` 查看
 
 ```sh
-docker build -t server .
+sudo docker build -t server .
 ```
+![04](./images/04.png)
 
 步骤五：运行 docker 镜像
 
 ```sh
-docker run -itd -P server
+sudo docker run -itd --name server -p 7001:7001 server
 ```
