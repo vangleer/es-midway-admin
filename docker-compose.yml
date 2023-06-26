@@ -1,12 +1,13 @@
 version: '3'
 services:
   mysql:
-    image: mysql:5.7
+    image: mysql
     container_name: es-mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     volumes:
       - ./data/mysql/:/var/lib/mysql/
+      - ./src/entity:/docker-entrypoint-initdb.d # 初始化执行的sql文件
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: "root"
@@ -14,7 +15,7 @@ services:
      - 3306:3306
 
   redis:
-    image: redis:5.0.5
+    image: redis
     container_name: es-redis
     restart: always
     environment:
@@ -29,7 +30,13 @@ services:
       context: . # 指定设定上下文根目录，然后以该目录为准指定Dockerfile
       dockerfile: Dockerfile
     ports:
-        - "7001:7001"
+      - "7001:7001"
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+      - redis
     environment:
      TZ: Asia/Shanghai
 
@@ -43,6 +50,4 @@ services:
     volumes:
       - ./web/dist:/usr/share/nginx/html
       - ./web/nginx.conf:/etc/nginx/conf.d/default.conf
-
-
 

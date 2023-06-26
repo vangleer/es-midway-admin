@@ -213,4 +213,67 @@ server {
 
 ### 编写docker-compose.yml
 
+```yml
+version: '3'
+services:
+  mysql:
+    image: mysql
+    container_name: es-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./data/mysql/:/var/lib/mysql/
+      - ./src/entity:/docker-entrypoint-initdb.d # 初始化执行的sql文件
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+     - 3306:3306
+
+  redis:
+    image: redis
+    container_name: es-redis
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/redis/:/data/
+
+  server:
+    restart: always
+    container_name: es-api
+    build:
+      context: . # 指定设定上下文根目录，然后以该目录为准指定Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "7001:7001"
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - mysql
+      - redis
+    environment:
+     TZ: Asia/Shanghai
+
+  web:
+    image: nginx:1.17.0
+    privileged: true
+    restart: always
+    container_name: es-web
+    ports:
+        - "80:80"
+    volumes:
+      - ./web/dist:/usr/share/nginx/html
+      - ./web/nginx.conf:/etc/nginx/conf.d/default.conf
+```
+
+- 启动mysql时可以直接添加初始化执行的sql文件
+- server启动依赖mysql和redis，需要添加 depends_on 等依赖的服务启动后再启动
+- web 使用的是nginx镜像，将打包好的目录映射到ngins的html中
+
+
+在docker-compose.yml文件目录运行 `sudo docker-compose up` 启动所有服务
+
+`sudo docker-compose up -d` 后台启动
 
