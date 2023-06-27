@@ -1,6 +1,6 @@
 # es-midway-admin
 
-midwayjs基础后台管理系统(八)-部署相关
+midwayjs基础后台管理系统(八)-使用pm2、docker/docker-compose部署
 
 这篇文章将会介绍 3 种部署方式
 
@@ -178,7 +178,7 @@ sudo docker build -t server .
 ```
 ![04](./images/04.png)
 
-步骤五：运行 docker 镜像，运行的时候同样要运行到 test网络下
+步骤四：运行 docker 镜像
 
 ```sh
 sudo docker run -itd --name server -p 7001:7001 server
@@ -312,7 +312,7 @@ location /v1/ {
 sudo docker-compose up mysql -d
 ```
 
-导入导入数据后
+导入数据后
 
 ```sh
 sudo docker-compose up -d
