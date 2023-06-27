@@ -8,6 +8,17 @@
 
 midwayjs + typeorm + redis
 
+## 相关文档
+
+- [(一)-基于midwayjs搭建的一套基础后台管理系统](https://juejin.cn/post/7216526817371750457)
+- [(二)-登录功能](https://juejin.cn/post/7217705828714545213)
+- [(三)-自定义组件&装饰器](https://juejin.cn/post/7221003401996075045)
+- [(四)-权限管理](https://juejin.cn/post/7222832297854074937)
+- [(五)-文件模块、excel导入导出、swagger接口文档生成](https://juejin.cn/post/7234430377909092389)
+- [(六)-操作日志、任务队列](https://juejin.cn/post/7242111660793364535)
+- [(七)-即时通讯、使用SocketIO开发聊天功能](https://juejin.cn/post/7246055010186559525)
+- [(八)-使用pm2、docker/docker-compose部署](https://juejin.cn/spost/7249165873360322618)
+
 ## 现有功能
 
 - 登录注册、验证码
